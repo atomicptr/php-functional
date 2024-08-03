@@ -2,6 +2,8 @@
 
 A set of tools to enable a more functional style of programming in PHP, inspired by [OCaml](https://ocaml.org/).
 
+![](./.github/logo.png)
+
 ## Docs
 
 ### Class: Lst
