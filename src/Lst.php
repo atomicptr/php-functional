@@ -21,7 +21,7 @@ final class Lst
             assert(is_bool($res));
 
             if ($res) {
-                return Option::some($res);
+                return Option::some($value);
             }
         }
 
