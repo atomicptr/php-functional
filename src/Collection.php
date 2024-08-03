@@ -22,6 +22,19 @@ final class Collection
         return $this->data;
     }
 
+    public function has(mixed $index): bool
+    {
+        return isset($this->data[$index]);
+    }
+
+    public function get(mixed $index): Option
+    {
+        if (!$this->has($index)) {
+            return Option::none();
+        }
+        return Option::some($this->data[$index]);
+    }
+
     public function map(callable $fn): static
     {
         return static::from(Lst::map($fn, $this->data));
@@ -37,7 +50,7 @@ final class Collection
         return Lst::forAll($fn, $this->data);
     }
 
-    public function find(callable $fn): mixed
+    public function find(callable $fn): Option
     {
         return Lst::find($fn, $this->data);
     }

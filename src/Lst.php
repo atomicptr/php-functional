@@ -14,18 +14,18 @@ final class Lst
         return array_filter($list, $fn, ARRAY_FILTER_USE_BOTH);
     }
 
-    public static function find(callable $fn, array $list): mixed
+    public static function find(callable $fn, array $list): Option
     {
         foreach ($list as $key => $value) {
             $res = $fn($value, $key);
             assert(is_bool($res));
 
             if ($res) {
-                return $res;
+                return Option::some($res);
             }
         }
 
-        return null;
+        return Option::none();
     }
 
     public static function forAll(callable $fn, array $list): void
