@@ -72,4 +72,60 @@ final class Lst
 
         return true;
     }
+
+    public static function length(array $lst): int
+    {
+        return count($lst);
+    }
+
+    public static function hd(array $lst): mixed
+    {
+        assert(static::length($lst) > 0);
+        return $lst[0];
+    }
+
+    public static function tl(array $lst): array
+    {
+        if (static::length($lst) === 0) {
+            return [];
+        }
+        return array_slice($lst, 1);
+    }
+
+    public static function rev(array $lst): array
+    {
+        return array_reverse($lst);
+    }
+
+    public static function init(callable $fn, int $length): array
+    {
+        $lst = [];
+
+        for ($i = 0; $i < $length; $i++) {
+            $lst[] = $fn($i);
+        }
+
+        return $lst;
+    }
+
+    public static function append(array $lst1, array $lst2): array
+    {
+        return [...array_values($lst1), ...array_values($lst2)];
+    }
+
+    public static function flatten(array $lst): array
+    {
+        $newLst = [];
+
+        foreach ($lst as $elem) {
+            if (is_array($elem)) {
+                $newLst = static::append($newLst, static::flatten($elem));
+                continue;
+            }
+
+            $newLst[] = $elem;
+        }
+
+        return $newLst;
+    }
 }

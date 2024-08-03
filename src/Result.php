@@ -9,8 +9,7 @@ final readonly class Result
     private function __construct(
         private mixed $value,
         private Stringable|null $error,
-    )
-    {
+    ) {
     }
 
     public static function ok(mixed $value): static

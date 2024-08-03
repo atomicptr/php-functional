@@ -7,8 +7,7 @@ final readonly class Option
     private function __construct(
         private bool $hasValue,
         private mixed $value,
-    )
-    {
+    ) {
     }
 
     public static function some(mixed $value): static

@@ -14,7 +14,7 @@ final class Collection
 
     public static function from(array $array): static
     {
-        return new static($array);
+        return new static(array_values($array));
     }
 
     public function toArray(): array
@@ -73,5 +73,35 @@ final class Collection
     public function every(callable $fn): bool
     {
         return Lst::every($fn, $this->data);
+    }
+
+    public function length(): int
+    {
+        return Lst::length($this->data);
+    }
+
+    public function hd(): mixed
+    {
+        return Lst::hd($this->data);
+    }
+
+    public function tl(): static
+    {
+        return static::from(Lst::tl($this->data));
+    }
+
+    public function rev(): static
+    {
+        return static::from(Lst::rev($this->data));
+    }
+
+    public function append(Collection $collection): static
+    {
+        return static::from(Lst::append($this->data, $collection->data));
+    }
+
+    public function flatten(): static
+    {
+        return static::from(Lst::flatten($this->data));
     }
 }
