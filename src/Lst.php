@@ -2,7 +2,7 @@
 
 namespace Atomicptr\Functional;
 
-final class ArrayUtils
+final class Lst
 {
     public static function map(callable $fn, array $list): array
     {
@@ -26,6 +26,13 @@ final class ArrayUtils
         }
 
         return null;
+    }
+
+    public static function forAll(callable $fn, array $list): void
+    {
+        foreach ($list as $key => $value) {
+            $fn($value, $key);
+        }
     }
 
     public static function foldl(callable $fn, array $list, mixed $initial = null): mixed

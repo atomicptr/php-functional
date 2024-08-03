@@ -1,20 +1,23 @@
 {
-    "name": "atomicptr/functional",
-    "description": "A set of tools to enable a more functional approach in PHP",
-    "type": "library",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Atomicptr\\Functional\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Christopher Kaster",
-            "email": "me@atomicptr.de"
-        }
-    ],
-    "require-dev": {
-        "laravel/pint": "^1.17"
+  "name": "atomicptr/functional",
+  "description": "A set of tools to enable a more functional approach in PHP",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Atomicptr\\Functional\\": "src/"
     }
+  },
+  "authors": [
+    {
+      "name": "Christopher Kaster",
+      "email": "me@atomicptr.de"
+    }
+  ],
+  "require": {
+    "php": ">=8.3"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.17"
+  }
 }
