@@ -1,6 +1,6 @@
 {
   "name": "atomicptr/functional",
-  "description": "A set of tools to enable a more functional approach in PHP",
+  "description": "A set of tools to enable a more functional style of programming in PHP, inspired by OCaml",
   "type": "library",
   "license": "MIT",
   "autoload": {
