@@ -2,13 +2,13 @@
 
 namespace Atomicptr\Functional;
 
-use Exception;
+use Stringable;
 
 final readonly class Result
 {
     private function __construct(
         private mixed $value,
-        private Exception|null $error,
+        private Stringable|null $error,
     )
     {
     }
@@ -18,7 +18,7 @@ final readonly class Result
         return new static($value, null);
     }
 
-    public static function error(Exception $error): static
+    public static function error(Stringable $error): static
     {
         return new static(null, $error);
     }
@@ -28,7 +28,7 @@ final readonly class Result
         return $this->error !== null;
     }
 
-    public function errorValue(): Exception|null
+    public function errorValue(): Stringable|null
     {
         return $this->error;
     }
