@@ -8,7 +8,7 @@ final readonly class Result
 {
     private function __construct(
         private mixed $value,
-        private Stringable|null $error,
+        private string|Stringable|null $error,
     ) {
     }
 
@@ -17,7 +17,7 @@ final readonly class Result
         return new static($value, null);
     }
 
-    public static function error(Stringable $error): static
+    public static function error(string|Stringable $error): static
     {
         return new static(null, $error);
     }
@@ -27,7 +27,7 @@ final readonly class Result
         return $this->error !== null;
     }
 
-    public function errorValue(): Stringable|null
+    public function errorValue(): string|Stringable|null
     {
         return $this->error;
     }
