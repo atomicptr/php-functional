@@ -34,7 +34,7 @@ final readonly class Result
 
     public function value(): mixed
     {
-        assert($this->error !== null, "Accessed Result that had an error");
+        assert(!$this->hasError(), "Accessed Result that had an error: " . $this->errorValue());
         return $this->value;
     }
 
