@@ -3,6 +3,7 @@
 namespace Atomicptr\Functional;
 
 use Stringable;
+use Throwable;
 
 final readonly class Result
 {
@@ -20,6 +21,16 @@ final readonly class Result
     public static function error(string|Stringable $error): static
     {
         return new static(null, $error);
+    }
+
+    public static function capture(callable $fn): Result
+    {
+        try {
+            $val = $fn();
+            return static::ok($val);
+        } catch (Throwable $err) {
+            return static::error($err);
+        }
     }
 
     public function hasError(): bool
