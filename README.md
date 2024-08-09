@@ -6,6 +6,7 @@ A set of tools to enable a more functional style of programming in PHP, inspired
 
 ## Docs
 
+<!--DOC_START-->
 ### Class: Lst
 
 A collection of functions for operations on "lists" (PHP arrays actually)
@@ -209,6 +210,7 @@ if (!$b->hasError()) {
 //    10 / 2 = 5
 //    10 / 0 = Whatever we specified in the exception
 ```
+<!--DOC_END-->
 
 ## License
 
