@@ -91,7 +91,7 @@ final class Collection
      */
     public function forAll(callable $fn): void
     {
-        return Lst::forAll($fn, $this->data);
+        Lst::forAll($fn, $this->data);
     }
 
     /**

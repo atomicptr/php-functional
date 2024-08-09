@@ -1,0 +1,14 @@
+<?php
+
+return (object)[
+    'rootNamespace' => 'Atomicptr\Functional', 
+    'destDirectory' => 'docs',
+    'format' => 'github',
+    'classes' => [
+        '\Atomicptr\Functional\Lst',
+        '\Atomicptr\Functional\Collection',
+        '\Atomicptr\Functional\Option',
+        '\Atomicptr\Functional\Result',
+    ],
+];
+
