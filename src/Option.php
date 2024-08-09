@@ -89,4 +89,20 @@ final readonly class Option
 
         return $res;
     }
+
+    /**
+     * Returns value of object if present, otherwise returns the result of $fn
+     *
+     * @template U
+     * @param callable(): U
+     * @return T|U
+     */
+    public function orElse(callable $fn): mixed
+    {
+        if ($this->isSome()) {
+            return $this->value();
+        }
+
+        return $fn();
+    }
 }
