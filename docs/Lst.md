@@ -34,7 +34,7 @@ A collection of functions for operating on "lists" (PHP arrays)
 **Description**
 
 ```php
-public static append (\T[] $lst1, \T[] $lst2)
+public static append (\T[] $lst1, \U[] $lst2)
 ```
 
 Concatenates two lists. 
@@ -44,11 +44,11 @@ Concatenates two lists.
 **Parameters**
 
 * `(\T[]) $lst1`
-* `(\T[]) $lst2`
+* `(\U[]) $lst2`
 
 **Return Values**
 
-`\T[]`
+`(\T|\U)[]`
 
 
 
@@ -137,7 +137,7 @@ Iterates over $list until one element applied to $fn returns true and return tha
 **Description**
 
 ```php
-public static flatten ((\T|array)[] $lst)
+public static flatten ((\T|\T[])[] $lst)
 ```
 
 Flattens a nested array structure. 
@@ -146,7 +146,7 @@ Flattens a nested array structure.
 
 **Parameters**
 
-* `((\T|array)[]) $lst`
+* `((\T|\T[])[]) $lst`
 
 **Return Values**
 
@@ -296,7 +296,7 @@ Creates a new list of given length using the provided function.
 **Description**
 
 ```php
-public static length (array $lst)
+public static length (\T[] $lst)
 ```
 
 Returns the number of elements in the list. 
@@ -305,7 +305,7 @@ Returns the number of elements in the list.
 
 **Parameters**
 
-* `(array) $lst`
+* `(\T[]) $lst`
 
 **Return Values**
 

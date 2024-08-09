@@ -166,7 +166,8 @@ final class Lst
     /**
      * Returns the number of elements in the list.
      *
-     * @param array<mixed> $lst
+     * @template T
+     * @param T[] $lst
      * @return int
      */
     public static function length(array $lst): int
@@ -178,7 +179,7 @@ final class Lst
      * Returns the first element of the list.
      *
      * @template T
-     * @param array<T> $lst
+     * @param T[] $lst
      * @return T
      */
     public static function hd(array $lst): mixed
@@ -191,8 +192,8 @@ final class Lst
      * Returns a new list containing all elements except the first.
      *
      * @template T
-     * @param array<T> $lst
-     * @return array<T>
+     * @param T[] $lst
+     * @return T[]
      */
     public static function tl(array $lst): array
     {
@@ -206,8 +207,8 @@ final class Lst
      * Returns a new list with elements in reverse order.
      *
      * @template T
-     * @param array<T> $lst
-     * @return array<T>
+     * @param T[] $lst
+     * @return T[]
      */
     public static function rev(array $lst): array
     {
@@ -220,7 +221,7 @@ final class Lst
      * @template T
      * @param callable(int $index): T $fn
      * @param int $length
-     * @return array<T>
+     * @return T[]
      */
     public static function init(callable $fn, int $length): array
     {
@@ -237,9 +238,10 @@ final class Lst
      * Concatenates two lists.
      *
      * @template T
-     * @param array<T> $lst1
-     * @param array<T> $lst2
-     * @return array<T>
+     * @template U
+     * @param T[] $lst1
+     * @param U[] $lst2
+     * @return (T|U)[]
      */
     public static function append(array $lst1, array $lst2): array
     {
@@ -250,8 +252,8 @@ final class Lst
      * Flattens a nested array structure.
      *
      * @template T
-     * @param array<T|array> $lst
-     * @return array<T>
+     * @param (T|T[])[] $lst
+     * @return T[]
      */
     public static function flatten(array $lst): array
     {

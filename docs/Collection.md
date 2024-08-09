@@ -19,6 +19,7 @@ A wrapper around PHP arrays enabling piping several functions together
 |[foldr](#collectionfoldr)|Reduce the collection to a single value, applying the function from right to left|
 |[forAll](#collectionforall)|Apply a function to each element in the collection without returning a value|
 |[from](#collectionfrom)|Create a new collection from an already existing list|
+|[fromIterator](#collectionfromiterator)|Create a new collection from an iterator (This will load the entire iterator into memory)|
 |[get](#collectionget)|Get the element at the given index, wrapped in an Option|
 |[has](#collectionhas)|Check if the collection has an element at the given index|
 |[hd](#collectionhd)|Get the first element of the collection|
@@ -257,6 +258,32 @@ Create a new collection from an already existing list
 **Parameters**
 
 * `(\T[]) $array`
+
+**Return Values**
+
+`\Collection<\T>`
+
+
+
+
+<hr />
+
+
+### Collection::fromIterator  
+
+**Description**
+
+```php
+public static fromIterator (\Iterator<\T> $iterator)
+```
+
+Create a new collection from an iterator (This will load the entire iterator into memory) 
+
+ 
+
+**Parameters**
+
+* `(\Iterator<\T>) $iterator`
 
 **Return Values**
 

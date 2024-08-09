@@ -2,6 +2,8 @@
 
 namespace Atomicptr\Functional;
 
+use Iterator;
+
 /**
  * A wrapper around PHP arrays enabling piping several functions together
  *
@@ -23,6 +25,23 @@ final class Collection
     public static function from(array $array): static
     {
         return new static(array_values($array));
+    }
+
+    /**
+     * Create a new collection from an iterator (This will load the entire iterator into memory)
+     *
+     * @param Iterator<T> $iterator
+     * @return Collection<T>
+     */
+    public static function fromIterator(Iterator $iterator): static
+    {
+        $arr = [];
+
+        while ($elem = $iterator->next()) {
+            $arr[] = $elem;
+        }
+
+        return static::from($arr);
     }
 
     /**

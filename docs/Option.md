@@ -16,6 +16,7 @@ This type is used in cases where a value may or may not be present.
 |[isNone](#optionisnone)|Checks if this Option is a None variant.|
 |[isSome](#optionissome)|Checks if this Option is a Some variant.|
 |[none](#optionnone)|Creates a None variant of Option, representing the absence of a value.|
+|[orElse](#optionorelse)|Returns value of object if present, otherwise returns the result of $fn|
 |[some](#optionsome)|Creates a Some variant of Option containing the given value.|
 |[value](#optionvalue)|Returns the contained value if this Option is Some.|
 
@@ -122,6 +123,32 @@ Creates a None variant of Option, representing the absence of a value.
 `\Option<\T>`
 
 > An Option representing no value.
+
+
+<hr />
+
+
+### Option::orElse  
+
+**Description**
+
+```php
+public orElse (void)
+```
+
+Returns value of object if present, otherwise returns the result of $fn 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\T|\U`
+
+
 
 
 <hr />
