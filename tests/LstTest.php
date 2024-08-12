@@ -2,6 +2,11 @@
 
 use Atomicptr\Functional\Lst;
 
+test("Lst::map", function () {
+    // make sure that index is passed
+    expect(Lst::map(fn (int $val, int $index) => $val + $index, [5, 4, 3, 2, 1]))->toBe([5, 5, 5, 5, 5]);
+});
+
 test("Lst::find", function () {
     $res = Lst::find(fn (int $num) => $num % 2 === 0, [1, 3, 5, 6, 10]);
     expect($res->isSome())->toBeTrue();

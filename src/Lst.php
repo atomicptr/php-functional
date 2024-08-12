@@ -22,7 +22,7 @@ final class Lst
      */
     public static function map(callable $fn, array $list): array
     {
-        return array_map($fn, $list);
+        return array_map($fn, $list, array_keys($list));
     }
 
     /**
