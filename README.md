@@ -2,7 +2,7 @@
 
 A set of tools to enable a more functional style of programming in PHP, inspired by [OCaml](https://ocaml.org/).
 
-![](./.github/logo.png)
+<img src="https://cdn.jsdelivr.net/gh/atomicptr/php-functional/.github/logo.png" height="150" />
 
 ```php
 <?php
@@ -36,7 +36,7 @@ if ($res->hasError()) {
     exit(1);
 }
 
-// nothing without null
+// express "nothing" without using null
 function findOneById(int $id): Option
 {
     $rows = DB::find("table_name", ["id" => $id]);
@@ -56,6 +56,16 @@ if ($row->isNone()) {
 }
 
 // ...
+````
+
+## Install
+
+The package is available on [packagist](https://packagist.org/packages/atomicptr/functional)
+
+Install via:
+
+```bash
+$ composer req atomicptr/functional
 ````
 
 ## Docs
