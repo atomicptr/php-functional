@@ -4,6 +4,8 @@ namespace Atomicptr\Functional;
 
 /**
  * A collection of functions for operating on "lists" (PHP arrays)
+ *
+ * Note: Map like arrays are generally unsupported but might work, this class is for lists
  */
 final class Lst
 {
@@ -41,6 +43,40 @@ final class Lst
     public static function filter(callable $fn, array $list): array
     {
         return array_filter($list, $fn, ARRAY_FILTER_USE_BOTH);
+    }
+
+    /**
+     * Partitions the input list into two arrays based on the given predicate function.
+     *
+     * @template T
+     * @template K
+     *
+     * @param callable(T $value, K $key): bool $fn The predicate function used to test each element
+     * @param array<K, T> $list The input list to be partitioned
+     *
+     * @return array{0: T[], 1: T[]} A tuple containing two arrays:
+     *         - The first array contains elements for which the predicate returned true
+     *         - The second array contains elements for which the predicate returned false
+     *
+     * @throws \AssertionError If the predicate function returns a non-boolean value
+     */
+    public static function partition(callable $fn, array $list): array
+    {
+        $matches = [];
+        $nonMatches = [];
+
+        foreach ($list as $key => $value) {
+            $res = $fn($value, $key);
+            assert(is_bool($res));
+
+            if ($res) {
+                $matches[] = $value;
+            } else {
+                $nonMatches[] = $value;
+            }
+        }
+
+        return [$matches, $nonMatches];
     }
 
     /**
@@ -176,6 +212,18 @@ final class Lst
     }
 
     /**
+     * Is the list empty?
+     *
+     * @template T
+     * @param T[] $lst
+     * @return bool
+     */
+    public static function isEmpty(array $lst): bool
+    {
+        return empty($lst);
+    }
+
+    /**
      * Returns the first element of the list.
      *
      * @template T
@@ -201,6 +249,94 @@ final class Lst
             return [];
         }
         return array_slice($lst, 1);
+    }
+
+    /**
+     * Attempts to retrieve the element at the specified index in the list.
+     *
+     * @template T
+     * @param array<T> $lst The input list
+     * @param int $index The index to retrieve
+     * @return Option<T> An Option containing the element if it exists, or None if the index is out of bounds
+     */
+    public static function tryNth(array $lst, int $index): Option
+    {
+        $lst = array_values($lst);
+
+        if (isset($lst[$index])) {
+            return Option::some($lst[$index]);
+        }
+
+        return Option::none();
+    }
+
+    /**
+     * Retrieves the element at the specified index in the list.
+     *
+     * @template T
+     * @param array<T> $lst The input list
+     * @param int $index The index to retrieve
+     * @return T The element at the specified index
+     * @throws \AssertionError If the index is out of bounds
+     */
+    public static function nth(array $lst, int $index): mixed
+    {
+        $val = static::tryNth($lst, $index);
+        assert($val->isSome());
+        return $val->value();
+    }
+
+    /**
+     * Retrieves the first element of the list.
+     *
+     * @template T
+     * @param array<T> $lst The input list
+     * @return T The first element of the list
+     * @throws \AssertionError If the list is empty
+     */
+    public static function first(array $lst): mixed
+    {
+        return static::nth($lst, 0);
+    }
+
+    /**
+     * Retrieves the second element of the list.
+     *
+     * @template T
+     * @param array<T> $lst The input list
+     * @return T The second element of the list
+     * @throws \AssertionError If the list has fewer than two elements
+     */
+    public static function second(array $lst): mixed
+    {
+        return static::nth($lst, 1);
+    }
+
+    /**
+     * Retrieves the third element of the list.
+     *
+     * @template T
+     * @param array<T> $lst The input list
+     * @return T The third element of the list
+     * @throws \AssertionError If the list has fewer than three elements
+     */
+    public static function third(array $lst): mixed
+    {
+        return static::nth($lst, 2);
+    }
+
+    /**
+     * Retrieves the last element of the list.
+     *
+     * @template T
+     * @param array<T> $lst The input list
+     * @return T The last element of the list
+     * @throws \AssertionError If the list is empty
+     */
+    public static function last(array $lst): mixed
+    {
+        assert(static::length($lst) > 0);
+        return static::nth($lst, static::length($lst) - 1);
     }
 
     /**
@@ -246,6 +382,20 @@ final class Lst
     public static function append(array $lst1, array $lst2): array
     {
         return [...array_values($lst1), ...array_values($lst2)];
+    }
+
+    /**
+     * Add element to new list
+     *
+     * @template T
+     * @template U
+     * @param T[] $lst
+     * @param U $value
+     * @return (T|U)[]
+     */
+    public static function cons(array $lst, mixed $value): array
+    {
+        return [...$lst, $value];
     }
 
     /**

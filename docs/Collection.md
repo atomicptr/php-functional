@@ -11,9 +11,11 @@ A wrapper around PHP arrays enabling piping several functions together
 | Name | Description |
 |------|-------------|
 |[append](#collectionappend)|Append another collection to this collection|
+|[cons](#collectioncons)|Add element to new list|
 |[every](#collectionevery)|Check if all elements in the collection satisfy the predicate function|
 |[filter](#collectionfilter)|Filter the collection based on a predicate function|
 |[find](#collectionfind)|Find the first element that satisfies a predicate function|
+|[first](#collectionfirst)|Retrieves the first element of the list.|
 |[flatten](#collectionflatten)|Flatten a nested collection structure|
 |[foldl](#collectionfoldl)|Reduce the collection to a single value, applying the function from left to right|
 |[foldr](#collectionfoldr)|Reduce the collection to a single value, applying the function from right to left|
@@ -23,10 +25,15 @@ A wrapper around PHP arrays enabling piping several functions together
 |[get](#collectionget)|Get the element at the given index, wrapped in an Option|
 |[has](#collectionhas)|Check if the collection has an element at the given index|
 |[hd](#collectionhd)|Get the first element of the collection|
+|[isEmpty](#collectionisempty)|Is the list empty?|
+|[last](#collectionlast)|Retrieves the last element of the list.|
 |[length](#collectionlength)|Get the number of elements in the collection|
 |[map](#collectionmap)|Apply a function to each element in the collection|
+|[partition](#collectionpartition)|Partitions the input list into two arrays based on the given predicate function.|
 |[rev](#collectionrev)|Reverse the order of elements in the collection|
+|[second](#collectionsecond)|Retrieves the second element of the list.|
 |[some](#collectionsome)|Check if any element in the collection satisfies the predicate function|
+|[third](#collectionthird)|Retrieves the third element of the list.|
 |[tl](#collectiontl)|Get a new collection with all elements except the first|
 |[toArray](#collectiontoarray)|Convert the collection to a PHP array|
 
@@ -52,6 +59,32 @@ Append another collection to this collection
 **Return Values**
 
 `\Collection<\T>`
+
+
+
+
+<hr />
+
+
+### Collection::cons  
+
+**Description**
+
+```php
+public cons (\U $value)
+```
+
+Add element to new list 
+
+ 
+
+**Parameters**
+
+* `(\U) $value`
+
+**Return Values**
+
+`\Collection<\T|\U>`
 
 
 
@@ -133,6 +166,38 @@ Find the first element that satisfies a predicate function
 
 
 
+
+<hr />
+
+
+### Collection::first  
+
+**Description**
+
+```php
+public first (void)
+```
+
+Retrieves the first element of the list. 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\T`
+
+> The first element of the list
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the list is empty
 
 <hr />
 
@@ -373,6 +438,64 @@ Get the first element of the collection
 <hr />
 
 
+### Collection::isEmpty  
+
+**Description**
+
+```php
+public isEmpty (void)
+```
+
+Is the list empty? 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`bool`
+
+
+
+
+<hr />
+
+
+### Collection::last  
+
+**Description**
+
+```php
+public last (void)
+```
+
+Retrieves the last element of the list. 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\T`
+
+> The last element of the list
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the list is empty
+
+<hr />
+
+
 ### Collection::length  
 
 **Description**
@@ -425,6 +548,41 @@ Apply a function to each element in the collection
 <hr />
 
 
+### Collection::partition  
+
+**Description**
+
+```php
+public partition (callable $fn)
+```
+
+Partitions the input list into two arrays based on the given predicate function. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+: The predicate function used to test each element  
+
+**Return Values**
+
+`array{0: \Collection<\T>, 1: \Collection<\T>}`
+
+> A tuple containing two collections:  
+- The first collection contains elements for which the predicate returned true  
+- The second collection contains elements for which the predicate returned false
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the predicate function returns a non-boolean value
+
+<hr />
+
+
 ### Collection::rev  
 
 **Description**
@@ -451,6 +609,38 @@ Reverse the order of elements in the collection
 <hr />
 
 
+### Collection::second  
+
+**Description**
+
+```php
+public second (void)
+```
+
+Retrieves the second element of the list. 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\T`
+
+> The second element of the list
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the list has fewer than two elements
+
+<hr />
+
+
 ### Collection::some  
 
 **Description**
@@ -473,6 +663,38 @@ Check if any element in the collection satisfies the predicate function
 
 
 
+
+<hr />
+
+
+### Collection::third  
+
+**Description**
+
+```php
+public third (void)
+```
+
+Retrieves the third element of the list. 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\T`
+
+> The third element of the list
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the list has fewer than three elements
 
 <hr />
 

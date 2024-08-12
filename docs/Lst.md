@@ -2,6 +2,8 @@
 
 A collection of functions for operating on "lists" (PHP arrays)
 
+Note: Map like arrays are generally unsupported but might work, this class is for lists  
+
 
 
 
@@ -11,20 +13,29 @@ A collection of functions for operating on "lists" (PHP arrays)
 | Name | Description |
 |------|-------------|
 |[append](#lstappend)|Concatenates two lists.|
+|[cons](#lstcons)|Add element to new list|
 |[every](#lstevery)|Returns true if all elements in the list satisfy the predicate $fn.|
 |[filter](#lstfilter)|Applies the function $fn to every element of $list and builds a new list with the elements of $list where $fn returned true|
 |[find](#lstfind)|Iterates over $list until one element applied to $fn returns true and return that element.|
+|[first](#lstfirst)|Retrieves the first element of the list.|
 |[flatten](#lstflatten)|Flattens a nested array structure.|
 |[foldl](#lstfoldl)|Reduces the array to a single value by applying $fn from left to right.|
 |[foldr](#lstfoldr)|Reduces the array to a single value by applying $fn from right to left.|
 |[forAll](#lstforall)|Applies the function $fn to every element of $list.|
 |[hd](#lsthd)|Returns the first element of the list.|
 |[init](#lstinit)|Creates a new list of given length using the provided function.|
+|[isEmpty](#lstisempty)|Is the list empty?|
+|[last](#lstlast)|Retrieves the last element of the list.|
 |[length](#lstlength)|Returns the number of elements in the list.|
 |[map](#lstmap)|Applies the function $fn to every element of $list and builds a new list with the results returned by $fn.|
+|[nth](#lstnth)|Retrieves the element at the specified index in the list.|
+|[partition](#lstpartition)|Partitions the input list into two arrays based on the given predicate function.|
 |[rev](#lstrev)|Returns a new list with elements in reverse order.|
+|[second](#lstsecond)|Retrieves the second element of the list.|
 |[some](#lstsome)|Returns true if at least one element in the list satisfies the predicate $fn.|
+|[third](#lstthird)|Retrieves the third element of the list.|
 |[tl](#lsttl)|Returns a new list containing all elements except the first.|
+|[tryNth](#lsttrynth)|Attempts to retrieve the element at the specified index in the list.|
 
 
 
@@ -45,6 +56,33 @@ Concatenates two lists.
 
 * `(\T[]) $lst1`
 * `(\U[]) $lst2`
+
+**Return Values**
+
+`(\T|\U)[]`
+
+
+
+
+<hr />
+
+
+### Lst::cons  
+
+**Description**
+
+```php
+public static cons (\T[] $lst, \U $value)
+```
+
+Add element to new list 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+* `(\U) $value`
 
 **Return Values**
 
@@ -128,6 +166,39 @@ Iterates over $list until one element applied to $fn returns true and return tha
 
 
 
+
+<hr />
+
+
+### Lst::first  
+
+**Description**
+
+```php
+public static first (\T[] $lst)
+```
+
+Retrieves the first element of the list. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+
+**Return Values**
+
+`\T`
+
+> The first element of the list
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the list is empty
 
 <hr />
 
@@ -291,6 +362,65 @@ Creates a new list of given length using the provided function.
 <hr />
 
 
+### Lst::isEmpty  
+
+**Description**
+
+```php
+public static isEmpty (\T[] $lst)
+```
+
+Is the list empty? 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+
+**Return Values**
+
+`bool`
+
+
+
+
+<hr />
+
+
+### Lst::last  
+
+**Description**
+
+```php
+public static last (\T[] $lst)
+```
+
+Retrieves the last element of the list. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+
+**Return Values**
+
+`\T`
+
+> The last element of the list
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the list is empty
+
+<hr />
+
+
 ### Lst::length  
 
 **Description**
@@ -341,6 +471,76 @@ Same as array_map
 <hr />
 
 
+### Lst::nth  
+
+**Description**
+
+```php
+public static nth (\T[] $lst, int $index)
+```
+
+Retrieves the element at the specified index in the list. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+* `(int) $index`
+: The index to retrieve  
+
+**Return Values**
+
+`\T`
+
+> The element at the specified index
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the index is out of bounds
+
+<hr />
+
+
+### Lst::partition  
+
+**Description**
+
+```php
+public static partition (callable $fn)
+```
+
+Partitions the input list into two arrays based on the given predicate function. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+: The predicate function used to test each element  
+
+**Return Values**
+
+`array{0: \T[], 1: \T[]}`
+
+> A tuple containing two arrays:  
+- The first array contains elements for which the predicate returned true  
+- The second array contains elements for which the predicate returned false
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the predicate function returns a non-boolean value
+
+<hr />
+
+
 ### Lst::rev  
 
 **Description**
@@ -363,6 +563,39 @@ Returns a new list with elements in reverse order.
 
 
 
+
+<hr />
+
+
+### Lst::second  
+
+**Description**
+
+```php
+public static second (\T[] $lst)
+```
+
+Retrieves the second element of the list. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+
+**Return Values**
+
+`\T`
+
+> The second element of the list
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the list has fewer than two elements
 
 <hr />
 
@@ -393,6 +626,39 @@ Returns true if at least one element in the list satisfies the predicate $fn.
 <hr />
 
 
+### Lst::third  
+
+**Description**
+
+```php
+public static third (\T[] $lst)
+```
+
+Retrieves the third element of the list. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+
+**Return Values**
+
+`\T`
+
+> The third element of the list
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If the list has fewer than three elements
+
+<hr />
+
+
 ### Lst::tl  
 
 **Description**
@@ -414,6 +680,35 @@ Returns a new list containing all elements except the first.
 `\T[]`
 
 
+
+
+<hr />
+
+
+### Lst::tryNth  
+
+**Description**
+
+```php
+public static tryNth (\T[] $lst, int $index)
+```
+
+Attempts to retrieve the element at the specified index in the list. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+* `(int) $index`
+: The index to retrieve  
+
+**Return Values**
+
+`\Option<\T>`
+
+> An Option containing the element if it exists, or None if the index is out of bounds
 
 
 <hr />

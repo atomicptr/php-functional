@@ -103,6 +103,25 @@ final class Collection
     }
 
     /**
+     * Partitions the input list into two arrays based on the given predicate function.
+     *
+     * @template K
+     *
+     * @param callable(T $value, K $key): bool $fn The predicate function used to test each element
+     *
+     * @return array{0: Collection<T>, 1: Collection<T>} A tuple containing two collections:
+     *         - The first collection contains elements for which the predicate returned true
+     *         - The second collection contains elements for which the predicate returned false
+     *
+     * @throws \AssertionError If the predicate function returns a non-boolean value
+     */
+     public function partition(callable $fn): array
+     {
+         list($matches, $nonMatches) = Lst::partition($fn, $this->data);
+         return [static::from($matches), static::from($nonMatches)];
+     }
+
+    /**
      * Apply a function to each element in the collection without returning a value
      *
      * @param callable(T $elem, int $index): void $fn
@@ -183,6 +202,16 @@ final class Collection
     }
 
     /**
+     * Is the list empty?
+     *
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return Lst::isEmpty($this->data);
+    }
+
+    /**
      * Get the first element of the collection
      *
      * @return T
@@ -200,6 +229,54 @@ final class Collection
     public function tl(): static
     {
         return static::from(Lst::tl($this->data));
+    }
+
+    /**
+     * Retrieves the first element of the list.
+     *
+     * @template T
+     * @return T The first element of the list
+     * @throws \AssertionError If the list is empty
+     */
+    public function first(): mixed
+    {
+        return Lst::first($this->data);
+    }
+
+    /**
+     * Retrieves the second element of the list.
+     *
+     * @template T
+     * @return T The second element of the list
+     * @throws \AssertionError If the list has fewer than two elements
+     */
+    public function second(): mixed
+    {
+        return Lst::second($this->data);
+    }
+
+    /**
+     * Retrieves the third element of the list.
+     *
+     * @template T
+     * @return T The third element of the list
+     * @throws \AssertionError If the list has fewer than three elements
+     */
+    public function third(): mixed
+    {
+        return Lst::third($this->data);
+    }
+
+    /**
+     * Retrieves the last element of the list.
+     *
+     * @template T
+     * @return T The last element of the list
+     * @throws \AssertionError If the list is empty
+     */
+    public function last(): mixed
+    {
+        return Lst::last($this->data);
     }
 
     /**
@@ -221,6 +298,18 @@ final class Collection
     public function append(Collection $collection): static
     {
         return static::from(Lst::append($this->data, $collection->data));
+    }
+
+    /**
+     * Add element to new list
+     *
+     * @template U
+     * @param U $value
+     * @return Collection<T|U>
+     */
+    public function cons(mixed $value): Collection
+    {
+        return static::from(Lst::cons($this->data, $value));
     }
 
     /**
