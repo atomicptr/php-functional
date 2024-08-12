@@ -4,3 +4,4 @@
 * [Collection](Collection.md) 
 * [Option](Option.md) 
 * [Result](Result.md) 
+* [ResultError](ResultError.md) 

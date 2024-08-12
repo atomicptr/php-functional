@@ -16,6 +16,7 @@ Represents a result of an operation that can either succeed with a value or fail
 |[errorValue](#resulterrorvalue)|Returns the error value if this Result represents an error.|
 |[hasError](#resulthaserror)|Checks if this Result represents an error.|
 |[ok](#resultok)|Creates a successful Result containing the given value.|
+|[panic](#resultpanic)|Creates an exception out of the error, for re-integration with a "normal" PHP environment that expects exceptions|
 |[value](#resultvalue)|Returns the success value if this Result represents success.|
 
 
@@ -176,6 +177,36 @@ Creates a successful Result containing the given value.
 `\Result<\T,\Err>`
 
 > A Result representing success
+
+
+<hr />
+
+
+### Result::panic  
+
+**Description**
+
+```php
+public panic (void)
+```
+
+Creates an exception out of the error, for re-integration with a "normal" PHP environment that expects exceptions 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`void`
+
+
+**Throws Exceptions**
+
+
+`\ResultError`
 
 
 <hr />

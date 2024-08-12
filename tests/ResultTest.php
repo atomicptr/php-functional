@@ -1,6 +1,7 @@
 <?php
 
 use Atomicptr\Functional\Result;
+use Atomicptr\Functional\ResultError;
 
 test("Result::capture", function () {
     $res = Result::capture(fn () => 5);
@@ -12,10 +13,18 @@ test("Result::capture", function () {
 });
 
 test("Result::bind", function () {
-    $res = Result::ok("test")->bind(fn () => Result::ok("yes"));
+    $res = Result::ok('{"api": "api response ig?"}')
+        ->bind(fn (string $resp) => Result::capture(fn () => json_decode($resp, true, flags: JSON_THROW_ON_ERROR)))
+        ->bind(fn (array $data) => Result::ok($data["api"]));
     expect($res->hasError())->toBeFalse();
-    expect($res->value())->toBe("yes");
+    expect($res->value())->toBe("api response ig?");
 
-    $res = Result::error("nope")->bind(fn () => Result::ok("yes"));
+    $res = Result::ok('this is not json smile')
+        ->bind(fn (string $resp) => Result::capture(fn () => json_decode($resp, true, flags: JSON_THROW_ON_ERROR)))
+        ->bind(fn (array $data) => Result::ok($data["api"]));
     expect($res->hasError())->toBeTrue();
 });
+
+test("Result::panic", function () {
+    Result::error("something went wrong")->panic();
+})->throws(ResultError::class);

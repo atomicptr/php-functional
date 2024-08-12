@@ -86,7 +86,7 @@ final readonly class Result
      */
     public function value(): mixed
     {
-        assert(!$this->hasError(), "Accessed Result that had an error: " . $this->errorValue());
+        assert(!$this->hasError(), "Result::value: Accessed Result that had an error: " . $this->errorValue());
         return $this->value;
     }
 
@@ -105,9 +105,18 @@ final readonly class Result
             return $this;
         }
 
-        $res = $fn($this);
-        assert($res instanceof static);
+        $res = $fn($this->value());
+        assert($res instanceof static, "Result::bind closure must return a Result");
 
         return $res;
+    }
+
+    /**
+     * Creates an exception out of the error, for re-integration with a "normal" PHP environment that expects exceptions
+     * @throws ResultError
+     */
+    public function panic(): void
+    {
+        throw new ResultError($this);
     }
 }

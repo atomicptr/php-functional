@@ -66,7 +66,7 @@ final readonly class Option
      */
     public function value(): mixed
     {
-        assert($this->hasValue, "Accessed Optional that has no value");
+        assert($this->hasValue, "Option::value: Accessed Optional that has no value");
         return $this->value;
     }
 
@@ -84,8 +84,8 @@ final readonly class Option
             return $this;
         }
 
-        $res = $fn($this);
-        assert($res instanceof static);
+        $res = $fn($this->value());
+        assert($res instanceof static, "Option::bind closure must return an Option");
 
         return $res;
     }

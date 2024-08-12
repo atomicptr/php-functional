@@ -36,6 +36,22 @@ if ($res->hasError()) {
     exit(1);
 }
 
+// use bind for Result or Option to only continue as long as there is a value
+// lets assume we have a function fetch(string $url): Result that just returns
+// the response as a string wrapped into Result
+$title = fetch("https://atomicptr.dev/api/blog/post/1337")
+    ->bind(fn (string $response) => Result::capture(fn () => json_decode($resp, true, flags: JSON_THROW_ON_ERROR)))
+    ->bind(function (array $data) {
+        assert(BlogPostSchema::isValid($data)); // A ficticious json schema validator
+        return BlogPostResource::createFrom($data); // This converts the json data into a structure
+    })->bind(fn (BlogPost $post) => $post->title());
+
+if ($title->hasError()) {
+    // something went wrong along the chain, so just panic
+    $title->panic();
+    exit(1);
+}
+
 // express "nothing" without using null
 function findOneById(int $id): Option
 {
