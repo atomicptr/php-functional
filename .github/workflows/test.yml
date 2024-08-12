@@ -1,0 +1,32 @@
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  tests:
+    name: CI Tests & Release
+    runs-on: ubuntu-latest
+    environment: CI
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Install Dependencies
+        run: |
+          composer install
+      - name: Lint
+        continue-on-error: true
+        run: |
+          composer exec pint
+      - name: Test
+        run: |
+          composer exec pest

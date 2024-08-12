@@ -115,11 +115,11 @@ final class Collection
      *
      * @throws \AssertionError If the predicate function returns a non-boolean value
      */
-     public function partition(callable $fn): array
-     {
-         list($matches, $nonMatches) = Lst::partition($fn, $this->data);
-         return [static::from($matches), static::from($nonMatches)];
-     }
+    public function partition(callable $fn): array
+    {
+        list($matches, $nonMatches) = Lst::partition($fn, $this->data);
+        return [static::from($matches), static::from($nonMatches)];
+    }
 
     /**
      * Apply a function to each element in the collection without returning a value
