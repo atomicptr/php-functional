@@ -85,3 +85,9 @@ test("Lst::cons", function () {
 test("Lst::flatten", function () {
     expect(Lst::flatten([[[1, 2], 3], [4, [5]], 6]))->toBe([1, 2, 3, 4, 5, 6]);
 });
+
+test("Lst::sort", function () {
+    $lst = [5, 100, 4, 3, 2, 1];
+    expect(Lst::sort(fn (int $a, int $b) => $a <=> $b, $lst))->toBe([1, 2, 3, 4, 5, 100]);
+    expect($lst)->toBe([5, 100, 4, 3, 2, 1]); // original list is unchanged
+});

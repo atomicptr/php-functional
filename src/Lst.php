@@ -420,4 +420,20 @@ final class Lst
 
         return $newLst;
     }
+
+    /**
+     * Sort a list in increasing order according to a comparison function. The comparison function must
+     * return 0 if it's arguments compare as equal, a positive integer if the first is greater and a
+     * negative integer if the first is smaller (see spaceship operator: <=>)
+     *
+     * @template T
+     * @param callable(T $elem1, T $elem2): T $fn
+     * @param T[] $lst
+     * @return T[]
+     */
+    public static function sort(callable $fn, array $lst): array
+    {
+        usort($lst, $fn);
+        return $lst;
+    }
 }

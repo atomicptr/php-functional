@@ -321,4 +321,17 @@ final class Collection
     {
         return static::from(Lst::flatten($this->data));
     }
+
+    /**
+     * Sort a list in increasing order according to a comparison function. The comparison function must
+     * return 0 if it's arguments compare as equal, a positive integer if the first is greater and a
+     * negative integer if the first is smaller (see spaceship operator: <=>)
+     *
+     * @param callable(T $elem1, T $elem2): T $fn
+     * @return Collection<T>
+     */
+    public function sort(callable $fn): static
+    {
+        return static::from(Lst::sort($fn, $this->data));
+    }
 }
