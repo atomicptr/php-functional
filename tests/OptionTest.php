@@ -17,4 +17,7 @@ test("Option::orElse", function () {
 
     $res = Option::none()->orElse(fn () => "yes");
     expect($res)->toBe("yes");
+
+    $res = Option::none()->orElse("yes");
+    expect($res)->toBe("yes");
 });
