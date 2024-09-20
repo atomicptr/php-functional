@@ -112,6 +112,19 @@ final readonly class Result
     }
 
     /**
+     * Result as an Option, mapping Result::ok(...) to Option::some(...) and Result::error(...) to Option::none()
+     *
+     * @return Option<T>
+     */
+    public function toOption(): Option
+    {
+        if ($this->hasError()) {
+            return Option::none();
+        }
+        return Option::some($this->value());
+    }
+
+    /**
      * Creates an exception out of the error, for re-integration with a "normal" PHP environment that expects exceptions
      * @throws ResultError
      */

@@ -1,5 +1,6 @@
 <?php
 
+use Atomicptr\Functional\Option;
 use Atomicptr\Functional\Result;
 use Atomicptr\Functional\ResultError;
 
@@ -28,3 +29,14 @@ test("Result::bind", function () {
 test("Result::panic", function () {
     Result::error("something went wrong")->panic();
 })->throws(ResultError::class);
+
+test("Result::toOption", function () {
+    $res = Result::error("something went wrong")->toOption();
+    expect($res)->toBeInstanceOf(Option::class);
+    expect($res->isNone())->toBeTrue();
+
+    $res = Result::ok(1337)->toOption();
+    expect($res)->toBeInstanceOf(Option::class);
+    expect($res->isNone())->toBeFalse();
+    expect($res->value())->toBe(1337);
+});
