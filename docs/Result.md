@@ -12,6 +12,7 @@ Represents a result of an operation that can either succeed with a value or fail
 |------|-------------|
 |[bind](#resultbind)|Applies a function to the success value (if any) and returns the result.|
 |[capture](#resultcapture)|Executes a function and captures its result or any thrown exception into a Result.|
+|[collection](#resultcollection)|Returns a collection of T when it has a value, otherwise returns an empty collection.|
 |[error](#resulterror)|Creates a failed Result containing the given error.|
 |[errorValue](#resulterrorvalue)|Returns the error value if this Result represents an error.|
 |[hasError](#resulthaserror)|Checks if this Result represents an error.|
@@ -72,6 +73,32 @@ Executes a function and captures its result or any thrown exception into a Resul
 `\Result<\T,\Err>`
 
 > A Result containing either the function's return value or the caught exception
+
+
+<hr />
+
+
+### Result::collection  
+
+**Description**
+
+```php
+public collection (void)
+```
+
+Returns a collection of T when it has a value, otherwise returns an empty collection. 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\Collection<\T>`
+
+
 
 
 <hr />

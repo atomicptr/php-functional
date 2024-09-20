@@ -13,6 +13,7 @@ This type is used in cases where a value may or may not be present.
 | Name | Description |
 |------|-------------|
 |[bind](#optionbind)|Applies a function to the contained value (if any) and returns the result.|
+|[collection](#optioncollection)|Returns a collection of T when it has a value, otherwise returns an empty collection.|
 |[isNone](#optionisnone)|Checks if this Option is a None variant.|
 |[isSome](#optionissome)|Checks if this Option is a Some variant.|
 |[none](#optionnone)|Creates a None variant of Option, representing the absence of a value.|
@@ -45,6 +46,32 @@ If this Option is None, returns None without calling the function.
 `\Option<\U>`
 
 > The result of applying the function, or None if this Option is None.
+
+
+<hr />
+
+
+### Option::collection  
+
+**Description**
+
+```php
+public collection (void)
+```
+
+Returns a collection of T when it has a value, otherwise returns an empty collection. 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\Collection<\T>`
+
+
 
 
 <hr />

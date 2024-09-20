@@ -132,4 +132,17 @@ final readonly class Result
     {
         throw new ResultError($this);
     }
+
+    /**
+     * Returns a collection of T when it has a value, otherwise returns an empty collection.
+     *
+     * @return Collection<T>
+     */
+    public function collection(): Collection
+    {
+        if ($this->hasError()) {
+            return Collection::from([]);
+        }
+        return Collection::from([$this->value()]);
+    }
 }

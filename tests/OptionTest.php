@@ -1,5 +1,6 @@
 <?php
 
+use Atomicptr\Functional\Collection;
 use Atomicptr\Functional\Option;
 
 test("Option::bind", function () {
@@ -20,4 +21,15 @@ test("Option::orElse", function () {
 
     $res = Option::none()->orElse("yes");
     expect($res)->toBe("yes");
+});
+
+test("Option::collection", function () {
+    $col = Option::some("test")->collection();
+    expect($col)->toBeInstanceOf(Collection::class);
+    expect($col->length())->toBe(1);
+    expect($col->first())->toBe("test");
+
+    $col = Option::none()->collection();
+    expect($col)->toBeInstanceOf(Collection::class);
+    expect($col->length())->toBe(0);
 });

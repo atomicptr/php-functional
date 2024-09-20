@@ -1,5 +1,6 @@
 <?php
 
+use Atomicptr\Functional\Collection;
 use Atomicptr\Functional\Option;
 use Atomicptr\Functional\Result;
 use Atomicptr\Functional\ResultError;
@@ -39,4 +40,15 @@ test("Result::toOption", function () {
     expect($res)->toBeInstanceOf(Option::class);
     expect($res->isNone())->toBeFalse();
     expect($res->value())->toBe(1337);
+});
+
+test("Result::collection", function () {
+    $col = Result::ok("test")->collection();
+    expect($col)->toBeInstanceOf(Collection::class);
+    expect($col->length())->toBe(1);
+    expect($col->first())->toBe("test");
+
+    $col = Result::error("oops")->collection();
+    expect($col)->toBeInstanceOf(Collection::class);
+    expect($col->length())->toBe(0);
 });

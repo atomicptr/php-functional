@@ -109,4 +109,17 @@ final readonly class Option
 
         return $value;
     }
+
+    /**
+     * Returns a collection of T when it has a value, otherwise returns an empty collection.
+     *
+     * @return Collection<T>
+     */
+    public function collection(): Collection
+    {
+        if ($this->isNone()) {
+            return Collection::from([]);
+        }
+        return Collection::from([$this->value()]);
+    }
 }
