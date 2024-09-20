@@ -17,6 +17,7 @@ Represents a result of an operation that can either succeed with a value or fail
 |[hasError](#resulthaserror)|Checks if this Result represents an error.|
 |[ok](#resultok)|Creates a successful Result containing the given value.|
 |[panic](#resultpanic)|Creates an exception out of the error, for re-integration with a "normal" PHP environment that expects exceptions|
+|[toOption](#resulttooption)|Result as an Option, mapping Result::ok(...) to Option::some(...) and Result::error(...) to Option::none()|
 |[value](#resultvalue)|Returns the success value if this Result represents success.|
 
 
@@ -207,6 +208,32 @@ Creates an exception out of the error, for re-integration with a "normal" PHP en
 
 
 `\ResultError`
+
+
+<hr />
+
+
+### Result::toOption  
+
+**Description**
+
+```php
+public toOption (void)
+```
+
+Result as an Option, mapping Result::ok(...) to Option::some(...) and Result::error(...) to Option::none() 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\Option<\T>`
+
+
 
 
 <hr />

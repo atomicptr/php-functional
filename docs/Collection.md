@@ -33,6 +33,7 @@ A wrapper around PHP arrays enabling piping several functions together
 |[rev](#collectionrev)|Reverse the order of elements in the collection|
 |[second](#collectionsecond)|Retrieves the second element of the list.|
 |[some](#collectionsome)|Check if any element in the collection satisfies the predicate function|
+|[sort](#collectionsort)|Sort a list in increasing order according to a comparison function. The comparison function must return 0 if it's arguments compare as equal, a positive integer if the first is greater and a negative integer if the first is smaller (see spaceship operator: <=>)|
 |[third](#collectionthird)|Retrieves the third element of the list.|
 |[tl](#collectiontl)|Get a new collection with all elements except the first|
 |[toArray](#collectiontoarray)|Convert the collection to a PHP array|
@@ -660,6 +661,32 @@ Check if any element in the collection satisfies the predicate function
 **Return Values**
 
 `bool`
+
+
+
+
+<hr />
+
+
+### Collection::sort  
+
+**Description**
+
+```php
+public sort (callable $fn)
+```
+
+Sort a list in increasing order according to a comparison function. The comparison function must return 0 if it's arguments compare as equal, a positive integer if the first is greater and a negative integer if the first is smaller (see spaceship operator: <=>) 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+
+**Return Values**
+
+`\Collection<\T>`
 
 
 
