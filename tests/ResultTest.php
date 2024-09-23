@@ -1,9 +1,9 @@
 <?php
 
 use Atomicptr\Functional\Collection;
+use Atomicptr\Functional\Exceptions\ResultError;
 use Atomicptr\Functional\Option;
 use Atomicptr\Functional\Result;
-use Atomicptr\Functional\ResultError;
 
 test("Result::capture", function () {
     $res = Result::capture(fn () => 5);

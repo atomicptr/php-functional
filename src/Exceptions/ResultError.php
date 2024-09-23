@@ -1,7 +1,8 @@
 <?php
 
-namespace Atomicptr\Functional;
+namespace Atomicptr\Functional\Exceptions;
 
+use Atomicptr\Functional\Result;
 use Exception;
 
 /**
@@ -9,10 +10,12 @@ use Exception;
  */
 class ResultError extends Exception
 {
+    public const CODE = 1727082028;
+
     public function __construct(private Result $result)
     {
         assert($result->hasError(), "tried to throw a Result error despite the associated result not being an error");
-        parent::__construct((string)$this, 0);
+        parent::__construct((string)$this, static::CODE);
     }
 
     public function __toString(): string

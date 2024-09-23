@@ -2,6 +2,7 @@
 
 namespace Atomicptr\Functional;
 
+use Atomicptr\Functional\Exceptions\ResultError;
 use Stringable;
 use Throwable;
 

@@ -2,14 +2,20 @@
 
 namespace Atomicptr\Functional;
 
+use ArrayAccess;
+use ArrayIterator;
+use Atomicptr\Functional\Exceptions\ImmutableException;
 use Iterator;
+use IteratorAggregate;
+use OutOfRangeException;
+use Traversable;
 
 /**
  * A wrapper around PHP arrays enabling piping several functions together
  *
  * @template T
  */
-final class Collection
+final class Collection implements Traversable, IteratorAggregate, ArrayAccess
 {
     private function __construct(
         private array $data = [],
@@ -333,5 +339,59 @@ final class Collection
     public function sort(callable $fn): static
     {
         return static::from(Lst::sort($fn, $this->data));
+    }
+
+    /**
+     * Create an iterator to iterate over collections
+     * @return Traversable<T>
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->data);
+    }
+
+    /**
+     * Check if the collection has an element at the given index.
+     *
+     * @see Collection::has
+     * @param mixed $index
+     * @return bool
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        return $this->has($offset);
+    }
+
+    /**
+     * Get the element at the given index, throws when it doesn't exist
+     *
+     * @param int $index
+     * @return T
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        $value = $this->get($offset);
+        if ($value->isNone()) {
+            throw new OutOfRangeException("Collection: Invalid index requested: $offset");
+        }
+        return $this->get($offset)->value();
+    }
+
+    /**
+     * This does nothing but throwing
+     * @throws ImmutableException
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new ImmutableException();
+    }
+
+    /**
+     * This does nothing but throwing
+     * @throws ImmutableException
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new ImmutableException();
     }
 }
