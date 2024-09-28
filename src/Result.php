@@ -59,6 +59,16 @@ final readonly class Result
     }
 
     /**
+     * Checks if the Result is OK
+     *
+     * @return bool
+     */
+    public function isOk(): bool
+    {
+        return $this->error === null;
+    }
+
+    /**
      * Checks if this Result represents an error.
      *
      * @return bool True if this Result contains an error, false otherwise
@@ -123,6 +133,27 @@ final readonly class Result
             return Option::none();
         }
         return Option::some($this->value());
+    }
+
+
+    /**
+     * Returns value of object if present, otherwise returns $value (executes it if its callable)
+     *
+     * @template U
+     * @param U|callable(): U
+     * @return T|U
+     */
+    public function orElse(mixed $value): mixed
+    {
+        if ($this->isOk()) {
+            return $this->value();
+        }
+
+        if (is_callable($value)) {
+            return $value();
+        }
+
+        return $value;
     }
 
     /**

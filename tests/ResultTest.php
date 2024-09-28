@@ -52,3 +52,14 @@ test("Result::collection", function () {
     expect($col)->toBeInstanceOf(Collection::class);
     expect($col->length())->toBe(0);
 });
+
+test("Result::orElse", function () {
+    $res = Result::ok("test")->orElse(fn () => "yes");
+    expect($res)->toBe("test");
+
+    $res = Result::error("error")->orElse(fn () => "yes");
+    expect($res)->toBe("yes");
+
+    $res = Result::error("error")->orElse("yes");
+    expect($res)->toBe("yes");
+});
