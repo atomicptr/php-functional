@@ -9,7 +9,9 @@ return (object)[
         '\Atomicptr\Functional\Collection',
         '\Atomicptr\Functional\Option',
         '\Atomicptr\Functional\Result',
-        '\Atomicptr\Functional\ResultError',
+        '\Atomicptr\Functional\Traits\EnumCollectionTrait',
+        '\Atomicptr\Functional\Exceptions\ResultError',
+        '\Atomicptr\Functional\Exceptions\ImmutableException',
     ],
 ];
 

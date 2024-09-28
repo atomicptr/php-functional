@@ -2,7 +2,8 @@
 
 A wrapper around PHP arrays enabling piping several functions together
 
-
+## Implements:
+Traversable, IteratorAggregate, ArrayAccess
 
 
 
@@ -23,12 +24,17 @@ A wrapper around PHP arrays enabling piping several functions together
 |[from](#collectionfrom)|Create a new collection from an already existing list|
 |[fromIterator](#collectionfromiterator)|Create a new collection from an iterator (This will load the entire iterator into memory)|
 |[get](#collectionget)|Get the element at the given index, wrapped in an Option|
+|[getIterator](#collectiongetiterator)|Create an iterator to iterate over collections|
 |[has](#collectionhas)|Check if the collection has an element at the given index|
 |[hd](#collectionhd)|Get the first element of the collection|
 |[isEmpty](#collectionisempty)|Is the list empty?|
 |[last](#collectionlast)|Retrieves the last element of the list.|
 |[length](#collectionlength)|Get the number of elements in the collection|
 |[map](#collectionmap)|Apply a function to each element in the collection|
+|[offsetExists](#collectionoffsetexists)|Check if the collection has an element at the given index.|
+|[offsetGet](#collectionoffsetget)|Get the element at the given index, throws when it doesn't exist|
+|[offsetSet](#collectionoffsetset)|This does nothing but throwing|
+|[offsetUnset](#collectionoffsetunset)|This does nothing but throwing|
 |[partition](#collectionpartition)|Partitions the input list into two arrays based on the given predicate function.|
 |[rev](#collectionrev)|Reverse the order of elements in the collection|
 |[second](#collectionsecond)|Retrieves the second element of the list.|
@@ -387,6 +393,32 @@ Get the element at the given index, wrapped in an Option
 <hr />
 
 
+### Collection::getIterator  
+
+**Description**
+
+```php
+public getIterator (void)
+```
+
+Create an iterator to iterate over collections 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\Traversable<\T>`
+
+
+
+
+<hr />
+
+
 ### Collection::has  
 
 **Description**
@@ -544,6 +576,118 @@ Apply a function to each element in the collection
 `\Collection<\U>`
 
 
+
+
+<hr />
+
+
+### Collection::offsetExists  
+
+**Description**
+
+```php
+public offsetExists (mixed $index)
+```
+
+Check if the collection has an element at the given index. 
+
+ 
+
+**Parameters**
+
+* `(mixed) $index`
+
+**Return Values**
+
+`bool`
+
+
+
+
+<hr />
+
+
+### Collection::offsetGet  
+
+**Description**
+
+```php
+public offsetGet (int $index)
+```
+
+Get the element at the given index, throws when it doesn't exist 
+
+ 
+
+**Parameters**
+
+* `(int) $index`
+
+**Return Values**
+
+`\T`
+
+
+
+
+<hr />
+
+
+### Collection::offsetSet  
+
+**Description**
+
+```php
+public offsetSet (void)
+```
+
+This does nothing but throwing 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`void`
+
+
+**Throws Exceptions**
+
+
+`\ImmutableException`
+
+
+<hr />
+
+
+### Collection::offsetUnset  
+
+**Description**
+
+```php
+public offsetUnset (void)
+```
+
+This does nothing but throwing 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`void`
+
+
+**Throws Exceptions**
+
+
+`\ImmutableException`
 
 
 <hr />

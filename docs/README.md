@@ -4,4 +4,6 @@
 * [Collection](Collection.md) 
 * [Option](Option.md) 
 * [Result](Result.md) 
-* [ResultError](ResultError.md) 
+* [Traits\EnumCollectionTrait](Traits/EnumCollectionTrait.md) 
+* [Exceptions\ResultError](Exceptions/ResultError.md) 
+* [Exceptions\ImmutableException](Exceptions/ImmutableException.md) 

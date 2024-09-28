@@ -16,7 +16,9 @@ Represents a result of an operation that can either succeed with a value or fail
 |[error](#resulterror)|Creates a failed Result containing the given error.|
 |[errorValue](#resulterrorvalue)|Returns the error value if this Result represents an error.|
 |[hasError](#resulthaserror)|Checks if this Result represents an error.|
+|[isOk](#resultisok)|Checks if the Result is OK|
 |[ok](#resultok)|Creates a successful Result containing the given value.|
+|[orElse](#resultorelse)|Returns value of object if present, otherwise returns $value (executes it if its callable)|
 |[panic](#resultpanic)|Creates an exception out of the error, for re-integration with a "normal" PHP environment that expects exceptions|
 |[toOption](#resulttooption)|Result as an Option, mapping Result::ok(...) to Option::some(...) and Result::error(...) to Option::none()|
 |[value](#resultvalue)|Returns the success value if this Result represents success.|
@@ -183,6 +185,32 @@ Checks if this Result represents an error.
 <hr />
 
 
+### Result::isOk  
+
+**Description**
+
+```php
+public isOk (void)
+```
+
+Checks if the Result is OK 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`bool`
+
+
+
+
+<hr />
+
+
 ### Result::ok  
 
 **Description**
@@ -205,6 +233,32 @@ Creates a successful Result containing the given value.
 `\Result<\T,\Err>`
 
 > A Result representing success
+
+
+<hr />
+
+
+### Result::orElse  
+
+**Description**
+
+```php
+public orElse (void)
+```
+
+Returns value of object if present, otherwise returns $value (executes it if its callable) 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\T|\U`
+
+
 
 
 <hr />
