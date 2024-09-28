@@ -4,13 +4,16 @@ namespace Atomicptr\Functional\Traits;
 
 use Atomicptr\Functional\Collection;
 use Atomicptr\Functional\Lst;
+use RuntimeException;
 
 trait EnumCollectionTrait
 {
     public static function values(): array
     {
-        $class = static::class;
-        assert(Lst::every(fn (mixed $elem) => property_exists($elem, 'value') && $elem->value !== null, static::cases()), "One of the values of the enum: $class has no value, is this a backed enum?");
+        if (!Lst::every(fn (mixed $elem) => property_exists($elem, 'value') && $elem->value !== null, static::cases())) {
+            $class = static::class;
+            throw new RuntimeException("One of the values of the enum: $class has no value, is this a backed enum?");
+        }
         return Lst::map(fn (mixed $elem) => $elem->value, static::cases());
     }
 

@@ -25,9 +25,9 @@ test("EnumCollectionTrait::values", function () {
     expect(Numbers::values())->toBe([1, 2, 3]);
 });
 
-test("EnumCollectionTrait::values without Backed Enum", function () {
+test("EnumCollectionTrait::values without Backed Enum throws", function () {
     Suit::values();
-})->throws(AssertionError::class);
+})->throws(RuntimeException::class);
 
 test("EnumCollectionTrait::collection", function () {
     $cases = Suit::cases();
