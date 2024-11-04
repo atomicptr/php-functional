@@ -88,10 +88,20 @@ $ composer req atomicptr/functional
 
 ### Atomicptr\Functional
 
-* [Lst](docs/Lst.md) 
-* [Collection](docs/Collection.md) 
-* [Option](docs/Option.md) 
-* [Result](docs/Result.md)
+* [Lst](./docs/Lst.md)
+* [Collection](./docs/Collection.md)
+* [Option](./docs/Option.md)
+* [Result](./docs/Result.md)
+* [Map](./docs/Map.md)
+
+### Atomicptr\Functional\Traits
+
+* [EnumCollectionTrait](./docs/Traits/EnumCollectionTrait.md)
+
+### Atomicptr\Functional\Exceptions
+
+* [ResultError](./docs/Exceptions/ResultError.md)
+* [ImmutableException](./docs/Exceptions/ImmutableException.md)
 
 ## License
 
