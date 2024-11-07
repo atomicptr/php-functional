@@ -5,7 +5,8 @@ An immutable key-value map implementation with functional programming operations
 The Map class provides a safe, immutable way to store and manipulate key-value pairs
 with type-safe operations. All modification operations return a new instance of the map.  
 
-
+## Implements:
+Traversable, IteratorAggregate, ArrayAccess
 
 
 
@@ -23,10 +24,15 @@ with type-safe operations. All modification operations return a new instance of 
 |[fromCollection](#mapfromcollection)|Creates a new Map instance from a Collection of key-value pairs.|
 |[fromList](#mapfromlist)|Creates a new Map instance from a list of key-value pairs.|
 |[get](#mapget)|Retrieves a value by key, wrapped in an Option.|
+|[getIterator](#mapgetiterator)|Create an iterator to iterate over maps|
 |[intersect](#mapintersect)|Creates an intersection of two maps, keeping only keys that exist in both maps.|
 |[keys](#mapkeys)|Returns an array of all keys in the map.|
 |[length](#maplength)|Returns the number of key-value pairs in the map.|
 |[map](#mapmap)|Maps over the values in the map using a function.|
+|[offsetExists](#mapoffsetexists)|Check if the Map has an element for the given key|
+|[offsetGet](#mapoffsetget)|Get the element for the given key, throws when it doesn't exist|
+|[offsetSet](#mapoffsetset)|This does nothing but throwing|
+|[offsetUnset](#mapoffsetunset)|This does nothing but throwing|
 |[remove](#mapremove)|Removes a key-value pair from the map, returning a new Map instance.|
 |[set](#mapset)|Sets a new key-value pair in the map, returning a new Map instance.|
 |[toArray](#maptoarray)|Converts the map to a PHP array.|
@@ -309,6 +315,32 @@ Retrieves a value by key, wrapped in an Option.
 <hr />
 
 
+### Map::getIterator  
+
+**Description**
+
+```php
+public getIterator (void)
+```
+
+Create an iterator to iterate over maps 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\Traversable<\T>`
+
+
+
+
+<hr />
+
+
 ### Map::intersect  
 
 **Description**
@@ -410,6 +442,118 @@ Maps over the values in the map using a function.
 `\Map<\TKey,\TNewValue>`
 
 > A new Map instance with transformed values
+
+
+<hr />
+
+
+### Map::offsetExists  
+
+**Description**
+
+```php
+public offsetExists (\TValue $offset)
+```
+
+Check if the Map has an element for the given key 
+
+ 
+
+**Parameters**
+
+* `(\TValue) $offset`
+
+**Return Values**
+
+`bool`
+
+
+
+
+<hr />
+
+
+### Map::offsetGet  
+
+**Description**
+
+```php
+public offsetGet (\TKey $offset)
+```
+
+Get the element for the given key, throws when it doesn't exist 
+
+ 
+
+**Parameters**
+
+* `(\TKey) $offset`
+
+**Return Values**
+
+`\TValue`
+
+
+
+
+<hr />
+
+
+### Map::offsetSet  
+
+**Description**
+
+```php
+public offsetSet (void)
+```
+
+This does nothing but throwing 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`void`
+
+
+**Throws Exceptions**
+
+
+`\ImmutableException`
+
+
+<hr />
+
+
+### Map::offsetUnset  
+
+**Description**
+
+```php
+public offsetUnset (void)
+```
+
+This does nothing but throwing 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`void`
+
+
+**Throws Exceptions**
+
+
+`\ImmutableException`
 
 
 <hr />

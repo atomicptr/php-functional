@@ -83,6 +83,10 @@ $map = Map::empty()
 
 $map->get("a"); // 3
 $map->get("b"); // 1
+
+// group products by type
+$productsByType = Lst::groupBy(fn (Product $product) => $product->getType()->toString(), Product::all());
+$productsByType->get("electronics") // [Product, Product]
 ````
 
 ## Install

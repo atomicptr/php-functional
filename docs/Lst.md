@@ -22,6 +22,7 @@ Note: Map like arrays are generally unsupported but might work, this class is fo
 |[foldl](#lstfoldl)|Reduces the array to a single value by applying $fn from left to right.|
 |[foldr](#lstfoldr)|Reduces the array to a single value by applying $fn from right to left.|
 |[forAll](#lstforall)|Applies the function $fn to every element of $list.|
+|[groupBy](#lstgroupby)|Groups elements of an array by the result of a callable function.|
 |[hd](#lsthd)|Returns the first element of the list.|
 |[init](#lstinit)|Creates a new list of given length using the provided function.|
 |[isEmpty](#lstisempty)|Is the list empty?|
@@ -305,6 +306,35 @@ Applies the function $fn to every element of $list.
 `void`
 
 
+
+
+<hr />
+
+
+### Lst::groupBy  
+
+**Description**
+
+```php
+public static groupBy (callable $fn, \TValue[] $lst)
+```
+
+Groups elements of an array by the result of a callable function. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+: A function that takes an element and returns a key for grouping.  
+* `(\TValue[]) $lst`
+: The list of elements to be grouped.  
+
+**Return Values**
+
+`\Map<\TKey,\TValue[]>`
+
+> A Map where keys are the results from $fn and values are arrays of elements that match each key.
 
 
 <hr />

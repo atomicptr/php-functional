@@ -25,6 +25,7 @@ Traversable, IteratorAggregate, ArrayAccess
 |[fromIterator](#collectionfromiterator)|Create a new collection from an iterator (This will load the entire iterator into memory)|
 |[get](#collectionget)|Get the element at the given index, wrapped in an Option|
 |[getIterator](#collectiongetiterator)|Create an iterator to iterate over collections|
+|[groupBy](#collectiongroupby)|Groups elements of the collection by the result of a callable function.|
 |[has](#collectionhas)|Check if the collection has an element at the given index|
 |[hd](#collectionhd)|Get the first element of the collection|
 |[isEmpty](#collectionisempty)|Is the list empty?|
@@ -419,6 +420,33 @@ Create an iterator to iterate over collections
 <hr />
 
 
+### Collection::groupBy  
+
+**Description**
+
+```php
+public groupBy (callable $fn)
+```
+
+Groups elements of the collection by the result of a callable function. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+: A function that takes an element and returns a key for grouping.  
+
+**Return Values**
+
+`\Map<\TKey,\T[]>`
+
+> A Map where keys are the results from $fn and values are arrays of elements that match each key.
+
+
+<hr />
+
+
 ### Collection::has  
 
 **Description**
@@ -586,7 +614,7 @@ Apply a function to each element in the collection
 **Description**
 
 ```php
-public offsetExists (mixed $index)
+public offsetExists (mixed $offset)
 ```
 
 Check if the collection has an element at the given index. 
@@ -595,7 +623,7 @@ Check if the collection has an element at the given index.
 
 **Parameters**
 
-* `(mixed) $index`
+* `(mixed) $offset`
 
 **Return Values**
 
@@ -612,7 +640,7 @@ Check if the collection has an element at the given index.
 **Description**
 
 ```php
-public offsetGet (int $index)
+public offsetGet (mixed $offset)
 ```
 
 Get the element at the given index, throws when it doesn't exist 
@@ -621,7 +649,7 @@ Get the element at the given index, throws when it doesn't exist
 
 **Parameters**
 
-* `(int) $index`
+* `(mixed) $offset`
 
 **Return Values**
 
