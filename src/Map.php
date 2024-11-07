@@ -81,7 +81,9 @@ final class Map
     public function update(mixed $key, callable $fn): static
     {
         $result = $fn($this->get($key));
-        assert($result instanceof Option);
+        if (!($result instanceof Option)) {
+            $result = Option::some($result);
+        }
         if ($result->isNone()) {
             return $this->remove($key);
         }

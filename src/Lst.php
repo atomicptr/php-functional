@@ -436,4 +436,22 @@ final class Lst
         usort($lst, $fn);
         return $lst;
     }
+
+    /**
+     * Groups elements of an array by the result of a callable function.
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param callable(TValue): TKey $fn A function that takes an element and returns a key for grouping.
+     * @param TValue[] $lst The list of elements to be grouped.
+     * @return Map<TKey, TValue[]> A Map where keys are the results from $fn and values are arrays of elements that match each key.
+     */
+    public static function groupBy(callable $fn, array $lst): Map
+    {
+        return Lst::foldl(function (Map $map, mixed $elem) use ($fn) {
+            $key = $fn($elem);
+            return $map->update($key, fn (Option $value) => $value->isSome() ? [...$value->value(), $elem] : [$elem]);
+        }, $lst, Map::empty());
+    }
 }

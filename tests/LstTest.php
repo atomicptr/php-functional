@@ -91,3 +91,9 @@ test("Lst::sort", function () {
     expect(Lst::sort(fn (int $a, int $b) => $a <=> $b, $lst))->toBe([1, 2, 3, 4, 5, 100]);
     expect($lst)->toBe([5, 100, 4, 3, 2, 1]); // original list is unchanged
 });
+
+test("Lst::groupBy", function () {
+    $result = Lst::groupBy(fn (int $num) => $num % 2 === 0 ? "even" : "odd", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    expect($result->get("even")->value())->toBe([2, 4, 6, 8, 10]);
+    expect($result->get("odd")->value())->toBe([1, 3, 5, 7, 9]);
+});

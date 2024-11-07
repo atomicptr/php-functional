@@ -342,6 +342,19 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     }
 
     /**
+     * Groups elements of the collection by the result of a callable function.
+     *
+     * @template TKey of array-key
+     *
+     * @param callable(T): TKey $fn A function that takes an element and returns a key for grouping.
+     * @return Map<TKey, T[]> A Map where keys are the results from $fn and values are arrays of elements that match each key.
+     */
+    public function groupBy(callable $fn): Map
+    {
+        return Lst::groupBy($fn, $this->data);
+    }
+
+    /**
      * Create an iterator to iterate over collections
      * @return Traversable<T>
      */
