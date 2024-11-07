@@ -14,7 +14,7 @@ namespace Atomicptr\Functional;
 final class Map
 {
     private function __construct(
-        private array $data = []
+        private \stdClass $data = new \stdClass()
     ) {
     }
 
@@ -27,7 +27,9 @@ final class Map
      */
     public function set(mixed $key, mixed $value): static
     {
-        return static::from([...$this->data, $key => $value]);
+        $new = clone $this->data;
+        $new->{$key} = $value;
+        return static::from((array) $new);
     }
 
     /**
@@ -38,7 +40,7 @@ final class Map
      */
     public function exists(mixed $key): bool
     {
-        return array_key_exists($key, $this->data);
+        return isset($this->data->{$key});
     }
 
     /**
@@ -52,7 +54,7 @@ final class Map
         if (! $this->exists($key)) {
             return Option::none();
         }
-        return Option::some($this->data[$key]);
+        return Option::some($this->data->{$key});
     }
 
     /**
@@ -153,7 +155,7 @@ final class Map
      */
     public function keys(): array
     {
-        return array_keys($this->data);
+        return array_keys(get_object_vars($this->data));
     }
 
     /**
@@ -163,7 +165,7 @@ final class Map
      */
     public function values(): array
     {
-        return array_keys($this->data);
+        return array_keys(get_object_vars($this->data));
     }
 
     /**
@@ -193,7 +195,7 @@ final class Map
      */
     public function toArray(): array
     {
-        return $this->data;
+        return (array)$this->data;
     }
 
     /**
@@ -203,7 +205,7 @@ final class Map
      */
     public function toList(): array
     {
-        return Lst::map(fn (mixed $key) => [$key, $this->data[$key]], array_keys($this->data));
+        return Lst::map(fn (mixed $key) => [$key, $this->data->{$key}], $this->keys());
     }
 
     /**
@@ -226,7 +228,7 @@ final class Map
      */
     public static function from(array $data): static
     {
-        return new static($data);
+        return new static((object)$data);
     }
 
     /**

@@ -72,6 +72,17 @@ if ($row->isNone()) {
 }
 
 // ...
+
+// maps
+$incrementer = fn (Option $value) => $value->isSome() ? Option::some($value->value() + 1 : 1;
+$map = Map::empty()
+    ->update("a", $incrementer)
+    ->update("a", $incrementer)
+    ->update("b", $incrementer)
+    ->set("c", 5);
+
+$map->get("a"); // 3
+$map->get("b"); // 1
 ````
 
 ## Install
