@@ -367,7 +367,7 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
      * Check if the collection has an element at the given index.
      *
      * @see Collection::has
-     * @param mixed $index
+     * @param mixed $offset
      * @return bool
      */
     public function offsetExists(mixed $offset): bool
@@ -378,7 +378,7 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Get the element at the given index, throws when it doesn't exist
      *
-     * @param int $index
+     * @param mixed $offset
      * @return T
      */
     public function offsetGet(mixed $offset): mixed

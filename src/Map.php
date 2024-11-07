@@ -2,6 +2,13 @@
 
 namespace Atomicptr\Functional;
 
+use ArrayAccess;
+use ArrayIterator;
+use Atomicptr\Functional\Exceptions\ImmutableException;
+use IteratorAggregate;
+use OutOfRangeException;
+use Traversable;
+
 /**
  * An immutable key-value map implementation with functional programming operations.
  *
@@ -11,7 +18,7 @@ namespace Atomicptr\Functional;
  * @template TKey
  * @template TValue
  */
-final class Map
+final class Map implements Traversable, IteratorAggregate, ArrayAccess
 {
     private function __construct(
         private \stdClass $data = new \stdClass()
@@ -276,5 +283,59 @@ final class Map
     public static function empty(): static
     {
         return static::from([]);
+    }
+
+    /**
+     * Create an iterator to iterate over maps
+     * @return Traversable<T>
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->data);
+    }
+
+    /**
+     * Check if the Map has an element for the given key
+     *
+     * @see Map::exists
+     * @param TValue $offset
+     * @return bool
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        return $this->exists($offset);
+    }
+
+    /**
+     * Get the element for the given key, throws when it doesn't exist
+     *
+     * @param TKey $offset
+     * @return TValue
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        $value = $this->get($offset);
+        if ($value->isNone()) {
+            throw new OutOfRangeException("Map: Invalid index requested: $offset");
+        }
+        return $this->get($offset)->value();
+    }
+
+    /**
+     * This does nothing but throwing
+     * @throws ImmutableException
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new ImmutableException();
+    }
+
+    /**
+     * This does nothing but throwing
+     * @throws ImmutableException
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new ImmutableException();
     }
 }

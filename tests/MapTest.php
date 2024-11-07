@@ -1,5 +1,6 @@
 <?php
 
+use Atomicptr\Functional\Exceptions\ImmutableException;
 use Atomicptr\Functional\Map;
 use Atomicptr\Functional\Option;
 
@@ -92,3 +93,33 @@ test("Map::toList", function () {
 test("Map::fromList", function () {
     expect(Map::fromList([["test", "yolo"], ["a", "b"]])->toArray())->toBe(["test" => "yolo", "a" => "b"]);
 });
+
+test("Map: Can be used like an PHP array", function () {
+    $arr = [
+        1 => "one",
+        2 => "two",
+        3 => "three",
+    ];
+    $map = Map::from($arr);
+    expect($map[2])->toBe($arr[2]);
+    expect($map)->toHaveLength(count($arr));
+
+    $num = 0;
+
+    foreach ($map as $key => $value) {
+        expect($value)->toBe($arr[$key]);
+        $num++;
+    }
+
+    expect($num)->toBe(count($arr));
+});
+
+test("Map: ArrayAccess set should throw", function () {
+    $map = Map::from([1 => 1, 2 => 2, 3 => 3]);
+    $map[1] = 999;
+})->throws(ImmutableException::class);
+
+test("Map: ArrayAccess unset should throw", function () {
+    $map = Map::from([1 => 1, 2 => 2, 3 => 3]);
+    unset($map[1]);
+})->throws(ImmutableException::class);
