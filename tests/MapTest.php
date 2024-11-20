@@ -30,6 +30,12 @@ test("Map::set", function () {
 test("Map::exists", function () {
     $map = Map::from(["a" => 42]);
     expect($map->exists("a"))->toBeTrue();
+
+    $map = $map->set("f646c0ab21dc74aa", "test");
+    expect($map->exists("f646c0ab21dc74aa"));
+
+    $map = $map->set(10, 42);
+    expect($map->exists(10));
 });
 
 test("Map::remove", function () {

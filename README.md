@@ -87,6 +87,12 @@ $map->get("b"); // 1
 // group products by type
 $productsByType = Lst::groupBy(fn (Product $product) => $product->getType()->toString(), Product::all());
 $productsByType->get("electronics") // [Product, Product]
+
+// memoize functions
+$f = Memo::make(fn (int $a, int $b) => doSomethingHeavy($a, $b));
+$res = $f(1337, 8080); // this will call "doSomethingHeavy" which might take a while
+// ...
+$res = $f(1337, 8080); // now we call it again but it will now instantly return the result because we already called it with 1 and 2
 ````
 
 ## Install
