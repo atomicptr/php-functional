@@ -24,7 +24,7 @@ final class Lst
      */
     public static function map(callable $fn, array $list): array
     {
-        return array_map($fn, $list, array_keys($list));
+        return array_values(array_map($fn, $list, array_keys($list)));
     }
 
     /**
@@ -42,7 +42,7 @@ final class Lst
      */
     public static function filter(callable $fn, array $list): array
     {
-        return array_filter($list, $fn, ARRAY_FILTER_USE_BOTH);
+        return array_values(array_filter($list, $fn, ARRAY_FILTER_USE_BOTH));
     }
 
     /**
@@ -76,7 +76,7 @@ final class Lst
             }
         }
 
-        return [$matches, $nonMatches];
+        return [array_values($matches), array_values($nonMatches)];
     }
 
     /**
@@ -248,7 +248,7 @@ final class Lst
         if (static::length($lst) === 0) {
             return [];
         }
-        return array_slice($lst, 1);
+        return array_values(array_slice($lst, 1));
     }
 
     /**
@@ -348,7 +348,7 @@ final class Lst
      */
     public static function rev(array $lst): array
     {
-        return array_reverse($lst);
+        return array_values(array_reverse($lst));
     }
 
     /**
@@ -395,7 +395,7 @@ final class Lst
      */
     public static function cons(array $lst, mixed $value): array
     {
-        return [...$lst, $value];
+        return static::append($lst, [$value]);
     }
 
     /**
@@ -434,7 +434,7 @@ final class Lst
     public static function sort(callable $fn, array $lst): array
     {
         usort($lst, $fn);
-        return $lst;
+        return array_values($lst);
     }
 
     /**

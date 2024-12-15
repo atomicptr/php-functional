@@ -7,6 +7,10 @@ test("Lst::map", function () {
     expect(Lst::map(fn (int $val, int $index) => $val + $index, [5, 4, 3, 2, 1]))->toBe([5, 5, 5, 5, 5]);
 });
 
+test("Lst::filter", function () {
+    expect(Lst::filter(fn (int $val) => $val % 2 === 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))->toBe([2, 4, 6, 8, 10]);
+});
+
 test("Lst::partition", function () {
     list($even, $odd) = Lst::partition(fn (int $num) => $num % 2 === 0, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect($even)->toBe([2, 4, 6, 8, 10]);
