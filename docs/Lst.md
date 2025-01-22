@@ -38,6 +38,7 @@ Note: Map like arrays are generally unsupported but might work, this class is fo
 |[third](#lstthird)|Retrieves the third element of the list.|
 |[tl](#lsttl)|Returns a new list containing all elements except the first.|
 |[tryNth](#lsttrynth)|Attempts to retrieve the element at the specified index in the list.|
+|[unique](#lstunique)|Removes duplicate values from a list.|
 
 
 
@@ -767,6 +768,32 @@ Attempts to retrieve the element at the specified index in the list.
 `\Option<\T>`
 
 > An Option containing the element if it exists, or None if the index is out of bounds
+
+
+<hr />
+
+
+### Lst::unique  
+
+**Description**
+
+```php
+public static unique (\T[] $lst)
+```
+
+Removes duplicate values from a list. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+
+**Return Values**
+
+`\T[]`
+
+
 
 
 <hr />

@@ -438,6 +438,18 @@ final class Lst
     }
 
     /**
+     * Removes duplicate values from a list.
+     *
+     * @template T
+     * @param T[] $lst
+     * @return T[]
+     */
+    public static function unique(array $lst): array
+    {
+        return array_values(array_unique($lst));
+    }
+
+    /**
      * Groups elements of an array by the result of a callable function.
      *
      * @template TKey of array-key

@@ -44,6 +44,7 @@ Traversable, IteratorAggregate, ArrayAccess
 |[third](#collectionthird)|Retrieves the third element of the list.|
 |[tl](#collectiontl)|Get a new collection with all elements except the first|
 |[toArray](#collectiontoarray)|Convert the collection to a PHP array|
+|[unique](#collectionunique)|Removes duplicate values from a list.|
 
 
 
@@ -943,6 +944,32 @@ Convert the collection to a PHP array
 **Return Values**
 
 `\T[]`
+
+
+
+
+<hr />
+
+
+### Collection::unique  
+
+**Description**
+
+```php
+public unique (void)
+```
+
+Removes duplicate values from a list. 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`\Collection<\T>`
 
 
 

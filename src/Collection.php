@@ -342,6 +342,16 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     }
 
     /**
+     * Removes duplicate values from a list.
+     *
+     * @return Collection<T>
+     */
+    public function unique(): static
+    {
+        return static::from(Lst::unique($this->data));
+    }
+
+    /**
      * Groups elements of the collection by the result of a callable function.
      *
      * @template TKey of array-key

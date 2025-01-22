@@ -96,6 +96,11 @@ test("Lst::sort", function () {
     expect($lst)->toBe([5, 100, 4, 3, 2, 1]); // original list is unchanged
 });
 
+test("Lst::unique", function () {
+    $lst = [0, 1, 2, 1, 3, 4, 3, 5, 5, 6, 6, 6];
+    expect(Lst::unique($lst))->toBe([0, 1, 2, 3, 4, 5, 6]);
+});
+
 test("Lst::groupBy", function () {
     $result = Lst::groupBy(fn (int $num) => $num % 2 === 0 ? "even" : "odd", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect($result->get("even")->value())->toBe([2, 4, 6, 8, 10]);
