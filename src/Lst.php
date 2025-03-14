@@ -450,6 +450,41 @@ final class Lst
     }
 
     /**
+     * Sort a list in increasing order according to a comparison function and remove duplicates.
+     * The comparison function must return 0 if its arguments compare as equal, a positive integer
+     * if the first is greater, and a negative integer if the first is smaller (see spaceship operator: <=>).
+     * Duplicate elements are identified by the comparison function returning 0 and are removed,
+     * keeping only the first occurrence.
+     *
+     * @template T
+     * @param callable(T $elem1, T $elem2): int $fn Comparison function that determines order and equality
+     * @param T[] $lst Input array to be sorted and deduplicated
+     * @return T[] Sorted array with unique elements
+     */
+    public static function sortUnique(callable $fn, array $lst): array
+    {
+        if (Lst::isEmpty($lst)) {
+            return [];
+        }
+
+        $lst = Lst::sort($fn, $lst);
+
+        return Lst::foldl(function (array $acc, mixed $current) use ($fn) {
+            if (empty($acc)) {
+                return [$current];
+            }
+
+            $prev = Lst::last($acc);
+
+            if ($fn($prev, $current) !== 0) {
+                return [...$acc, $current];
+            }
+
+            return $acc;
+        }, $lst, []);
+    }
+
+    /**
      * Groups elements of an array by the result of a callable function.
      *
      * @template TKey of array-key

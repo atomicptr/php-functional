@@ -41,6 +41,7 @@ Traversable, IteratorAggregate, ArrayAccess
 |[second](#collectionsecond)|Retrieves the second element of the list.|
 |[some](#collectionsome)|Check if any element in the collection satisfies the predicate function|
 |[sort](#collectionsort)|Sort a list in increasing order according to a comparison function. The comparison function must return 0 if it's arguments compare as equal, a positive integer if the first is greater and a negative integer if the first is smaller (see spaceship operator: <=>)|
+|[sortUnique](#collectionsortunique)|Sort a list in increasing order according to a comparison function and remove duplicates.|
 |[third](#collectionthird)|Retrieves the third element of the list.|
 |[tl](#collectiontl)|Get a new collection with all elements except the first|
 |[toArray](#collectiontoarray)|Convert the collection to a PHP array|
@@ -856,6 +857,36 @@ Sort a list in increasing order according to a comparison function. The comparis
 **Parameters**
 
 * `(callable) $fn`
+
+**Return Values**
+
+`\Collection<\T>`
+
+
+
+
+<hr />
+
+
+### Collection::sortUnique  
+
+**Description**
+
+```php
+public sortUnique (callable $fn)
+```
+
+Sort a list in increasing order according to a comparison function and remove duplicates. 
+
+The comparison function must return 0 if its arguments compare as equal, a positive integer  
+if the first is greater, and a negative integer if the first is smaller (see spaceship operator: <=>).  
+Duplicate elements are identified by the comparison function returning 0 and are removed,  
+keeping only the first occurrence. 
+
+**Parameters**
+
+* `(callable) $fn`
+: Comparison function that determines order and equality  
 
 **Return Values**
 

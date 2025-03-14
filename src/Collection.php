@@ -352,6 +352,21 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     }
 
     /**
+     * Sort a list in increasing order according to a comparison function and remove duplicates.
+     * The comparison function must return 0 if its arguments compare as equal, a positive integer
+     * if the first is greater, and a negative integer if the first is smaller (see spaceship operator: <=>).
+     * Duplicate elements are identified by the comparison function returning 0 and are removed,
+     * keeping only the first occurrence.
+     *
+     * @param callable(T $elem1, T $elem2): int $fn Comparison function that determines order and equality
+     * @return Collection<T>
+     */
+    public function sortUnique(callable $fn): static
+    {
+        return static::from(Lst::sortUnique($fn, $this->data));
+    }
+
+    /**
      * Groups elements of the collection by the result of a callable function.
      *
      * @template TKey of array-key

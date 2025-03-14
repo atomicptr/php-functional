@@ -101,6 +101,14 @@ test("Lst::unique", function () {
     expect(Lst::unique($lst))->toBe([0, 1, 2, 3, 4, 5, 6]);
 });
 
+test("Lst::sortUnique", function () {
+    $lst = [100, 1, 2, 1, 3, 4, 3, 5, 5, 6, 6, 6, 0];
+    expect(Lst::sortUnique(fn (int $a, int $b) => $a <=> $b, $lst))->toBe([0, 1, 2, 3, 4, 5, 6, 100]);
+
+    $lst = [[100, "C"], [50, "B"], [10, "A"], [100, "C"]];
+    expect(Lst::sortUnique(fn (array $a, array $b) => Lst::first($a) <=> Lst::first($b), $lst))->toBe([[10, "A"], [50, "B"], [100, "C"]]);
+});
+
 test("Lst::groupBy", function () {
     $result = Lst::groupBy(fn (int $num) => $num % 2 === 0 ? "even" : "odd", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect($result->get("even")->value())->toBe([2, 4, 6, 8, 10]);

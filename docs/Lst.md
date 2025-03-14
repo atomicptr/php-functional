@@ -35,6 +35,7 @@ Note: Map like arrays are generally unsupported but might work, this class is fo
 |[second](#lstsecond)|Retrieves the second element of the list.|
 |[some](#lstsome)|Returns true if at least one element in the list satisfies the predicate $fn.|
 |[sort](#lstsort)|Sort a list in increasing order according to a comparison function. The comparison function must return 0 if it's arguments compare as equal, a positive integer if the first is greater and a negative integer if the first is smaller (see spaceship operator: <=>)|
+|[sortUnique](#lstsortunique)|Sort a list in increasing order according to a comparison function and remove duplicates.|
 |[third](#lstthird)|Retrieves the third element of the list.|
 |[tl](#lsttl)|Returns a new list containing all elements except the first.|
 |[tryNth](#lsttrynth)|Attempts to retrieve the element at the specified index in the list.|
@@ -680,6 +681,38 @@ Sort a list in increasing order according to a comparison function. The comparis
 `\T[]`
 
 
+
+
+<hr />
+
+
+### Lst::sortUnique  
+
+**Description**
+
+```php
+public static sortUnique (callable $fn, \T[] $lst)
+```
+
+Sort a list in increasing order according to a comparison function and remove duplicates. 
+
+The comparison function must return 0 if its arguments compare as equal, a positive integer  
+if the first is greater, and a negative integer if the first is smaller (see spaceship operator: <=>).  
+Duplicate elements are identified by the comparison function returning 0 and are removed,  
+keeping only the first occurrence. 
+
+**Parameters**
+
+* `(callable) $fn`
+: Comparison function that determines order and equality  
+* `(\T[]) $lst`
+: Input array to be sorted and deduplicated  
+
+**Return Values**
+
+`\T[]`
+
+> Sorted array with unique elements
 
 
 <hr />
