@@ -129,3 +129,11 @@ test("Map: ArrayAccess unset should throw", function () {
     $map = Map::from([1 => 1, 2 => 2, 3 => 3]);
     unset($map[1]);
 })->throws(ImmutableException::class);
+
+test("Map::keys", function () {
+    expect(Map::from(["a" => 1, "b" => 2, "c" => 3])->keys())->toBe(["a", "b", "c"]);
+});
+
+test("Map::values", function () {
+    expect(Map::from(["a" => 1, "b" => 2, "c" => 3])->values())->toBe([1, 2, 3]);
+});

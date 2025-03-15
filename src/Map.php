@@ -174,7 +174,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function values(): array
     {
-        return array_keys(get_object_vars($this->data));
+        return array_values(get_object_vars($this->data));
     }
 
     /**
