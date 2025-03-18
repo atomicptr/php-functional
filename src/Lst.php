@@ -20,7 +20,6 @@ final class Lst
      * @param callable(T $elem, K $index): T $fn
      * @param array<K, T> $list
      * @return array<K, T>
-     *
      */
     public static function map(callable $fn, array $list): array
     {
@@ -38,7 +37,6 @@ final class Lst
      * @param callable(T $elem, K $index): bool $fn
      * @param array<K, T> $list
      * @return array<K, T>
-     *
      */
     public static function filter(callable $fn, array $list): array
     {
@@ -88,7 +86,6 @@ final class Lst
      * @param callable(T $elem, K $index): bool $fn
      * @param array<K, T> $list
      * @return Option<T>
-     *
      */
     public static function find(callable $fn, array $list): Option
     {
@@ -98,6 +95,30 @@ final class Lst
 
             if ($res) {
                 return Option::some($value);
+            }
+        }
+
+        return Option::none();
+    }
+
+    /**
+     * Iterates over $list until one element applied to $fn returns true and
+     * returns the index of that element.
+     *
+     * @template T
+     * @template K
+     * @param callable(T $elem, K $index): bool $fn
+     * @param array<K, T> $list
+     * @return Option<K>
+     */
+    public static function findIndex(callable $fn, array $list): Option
+    {
+        foreach ($list as $key => $value) {
+            $res = $fn($value, $key);
+            assert(is_bool($res));
+
+            if ($res) {
+                return Option::some($key);
             }
         }
 
@@ -149,7 +170,7 @@ final class Lst
      */
     public static function foldr(callable $fn, array $list, mixed $initial = null): mixed
     {
-        return array_reduce($list, fn (mixed $acc, mixed $curr) => $fn($curr, $acc), $initial);
+        return array_reduce($list, fn(mixed $acc, mixed $curr) => $fn($curr, $acc), $initial);
     }
 
     /**
@@ -174,7 +195,6 @@ final class Lst
 
         return false;
     }
-
 
     /**
      * Returns true if all elements in the list satisfy the predicate $fn.
@@ -422,6 +442,103 @@ final class Lst
     }
 
     /**
+     * Returns a new list containing the first $num elements of the input list.
+     *
+     * @template T
+     * @param T[] $lst The input list
+     * @param int $num The number of elements to take
+     * @return T[] A new list with up to $num elements
+     */
+    public static function take(array $lst, int $num): array
+    {
+        $lst = array_values($lst);
+        return array_slice($lst, 0, $num);
+    }
+
+    /**
+     * Returns a new list containing elements from the start of the input list
+     * until the predicate function $fn returns false.
+     *
+     * @template T
+     * @template K
+     * @param callable(T $elem, K $index): bool $fn The predicate function
+     * @param array<K, T> $lst The input list
+     * @return T[] A new list with elements up to where $fn first returns false
+     */
+    public static function takeWhile(callable $fn, array $lst): array
+    {
+        $index = static::findIndex(fn(mixed $value, mixed $index) => !$fn($value, $index), $lst);
+
+        if ($index->isNone()) {
+            return $lst;
+        }
+
+        $index = $index->value();
+
+        if ($index >= count($lst)) {
+            return $lst;
+        }
+
+        return array_values(array_slice($lst, 0, $index));
+    }
+
+    /**
+     * Returns a new list with the first $num elements removed.
+     *
+     * @template T
+     * @param T[] $lst The input list
+     * @param int $num The number of elements to drop
+     * @return T[] A new list with $num elements removed from the start
+     */
+    public static function drop(array $lst, int $num): array
+    {
+        $lst = array_values($lst);
+        return array_slice($lst, $num);
+    }
+
+    /**
+     * Returns a new list with elements dropped from the start until the
+     * predicate function $fn returns false.
+     *
+     * @template T
+     * @template K
+     * @param callable(T $elem, K $index): bool $fn The predicate function
+     * @param array<K, T> $lst The input list
+     * @return T[] A new list with elements dropped until $fn first returns false
+     */
+    public static function dropWhile(callable $fn, array $lst): array
+    {
+        $index = static::findIndex(fn(mixed $value, mixed $index) => !$fn($value, $index), $lst);
+
+        if ($index->isNone()) {
+            return [];
+        }
+
+        $index = $index->value();
+
+        if ($index >= count($lst)) {
+            return [];
+        }
+
+        return array_values(array_slice($lst, $index));
+    }
+
+    /**
+     * Returns a portion of the list starting at $start with an optional length.
+     *
+     * @template T
+     * @param T[] $lst The input list
+     * @param int $start The starting index (default 0)
+     * @param ?int $length The number of elements to include (default null for all remaining)
+     * @return T[] A new list containing the specified slice
+     */
+    public static function slice(array $lst, int $start = 0, ?int $length = null): array
+    {
+        $lst = array_values($lst);
+        return array_slice($lst, $start, $length);
+    }
+
+    /**
      * Sort a list in increasing order according to a comparison function. The comparison function must
      * return 0 if it's arguments compare as equal, a positive integer if the first is greater and a
      * negative integer if the first is smaller (see spaceship operator: <=>)
@@ -498,7 +615,7 @@ final class Lst
     {
         return Lst::foldl(function (Map $map, mixed $elem) use ($fn) {
             $key = $fn($elem);
-            return $map->update($key, fn (Option $value) => $value->isSome() ? [...$value->value(), $elem] : [$elem]);
+            return $map->update($key, fn(Option $value) => $value->isSome() ? [...$value->value(), $elem] : [$elem]);
         }, $lst, Map::empty());
     }
 }

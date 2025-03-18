@@ -14,9 +14,12 @@ Note: Map like arrays are generally unsupported but might work, this class is fo
 |------|-------------|
 |[append](#lstappend)|Concatenates two lists.|
 |[cons](#lstcons)|Add element to new list|
+|[drop](#lstdrop)|Returns a new list with the first $num elements removed.|
+|[dropWhile](#lstdropwhile)|Returns a new list with elements dropped from the start until the predicate function $fn returns false.|
 |[every](#lstevery)|Returns true if all elements in the list satisfy the predicate $fn.|
 |[filter](#lstfilter)|Applies the function $fn to every element of $list and builds a new list with the elements of $list where $fn returned true|
 |[find](#lstfind)|Iterates over $list until one element applied to $fn returns true and return that element.|
+|[findIndex](#lstfindindex)|Iterates over $list until one element applied to $fn returns true and returns the index of that element.|
 |[first](#lstfirst)|Retrieves the first element of the list.|
 |[flatten](#lstflatten)|Flattens a nested array structure.|
 |[foldl](#lstfoldl)|Reduces the array to a single value by applying $fn from left to right.|
@@ -33,9 +36,12 @@ Note: Map like arrays are generally unsupported but might work, this class is fo
 |[partition](#lstpartition)|Partitions the input list into two arrays based on the given predicate function.|
 |[rev](#lstrev)|Returns a new list with elements in reverse order.|
 |[second](#lstsecond)|Retrieves the second element of the list.|
+|[slice](#lstslice)|Returns a portion of the list starting at $start with an optional length.|
 |[some](#lstsome)|Returns true if at least one element in the list satisfies the predicate $fn.|
 |[sort](#lstsort)|Sort a list in increasing order according to a comparison function. The comparison function must return 0 if it's arguments compare as equal, a positive integer if the first is greater and a negative integer if the first is smaller (see spaceship operator: <=>)|
 |[sortUnique](#lstsortunique)|Sort a list in increasing order according to a comparison function and remove duplicates.|
+|[take](#lsttake)|Returns a new list containing the first $num elements of the input list.|
+|[takeWhile](#lsttakewhile)|Returns a new list containing elements from the start of the input list until the predicate function $fn returns false.|
 |[third](#lstthird)|Retrieves the third element of the list.|
 |[tl](#lsttl)|Returns a new list containing all elements except the first.|
 |[tryNth](#lsttrynth)|Attempts to retrieve the element at the specified index in the list.|
@@ -93,6 +99,62 @@ Add element to new list
 `(\T|\U)[]`
 
 
+
+
+<hr />
+
+
+### Lst::drop  
+
+**Description**
+
+```php
+public static drop (\T[] $lst, int $num)
+```
+
+Returns a new list with the first $num elements removed. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+* `(int) $num`
+: The number of elements to drop  
+
+**Return Values**
+
+`\T[]`
+
+> A new list with $num elements removed from the start
+
+
+<hr />
+
+
+### Lst::dropWhile  
+
+**Description**
+
+```php
+public static dropWhile (callable $fn)
+```
+
+Returns a new list with elements dropped from the start until the predicate function $fn returns false. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+: The predicate function  
+
+**Return Values**
+
+`\T[]`
+
+> A new list with elements dropped until $fn first returns false
 
 
 <hr />
@@ -167,6 +229,32 @@ Iterates over $list until one element applied to $fn returns true and return tha
 **Return Values**
 
 `\Option<\T>`
+
+
+
+
+<hr />
+
+
+### Lst::findIndex  
+
+**Description**
+
+```php
+public static findIndex (callable $fn)
+```
+
+Iterates over $list until one element applied to $fn returns true and returns the index of that element. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+
+**Return Values**
+
+`\Option<\K>`
 
 
 
@@ -633,6 +721,37 @@ Retrieves the second element of the list.
 <hr />
 
 
+### Lst::slice  
+
+**Description**
+
+```php
+public static slice (\T[] $lst, int $start, ?int $length)
+```
+
+Returns a portion of the list starting at $start with an optional length. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+* `(int) $start`
+: The starting index (default 0)  
+* `(?int) $length`
+: The number of elements to include (default null for all remaining)  
+
+**Return Values**
+
+`\T[]`
+
+> A new list containing the specified slice
+
+
+<hr />
+
+
 ### Lst::some  
 
 **Description**
@@ -713,6 +832,62 @@ keeping only the first occurrence.
 `\T[]`
 
 > Sorted array with unique elements
+
+
+<hr />
+
+
+### Lst::take  
+
+**Description**
+
+```php
+public static take (\T[] $lst, int $num)
+```
+
+Returns a new list containing the first $num elements of the input list. 
+
+ 
+
+**Parameters**
+
+* `(\T[]) $lst`
+: The input list  
+* `(int) $num`
+: The number of elements to take  
+
+**Return Values**
+
+`\T[]`
+
+> A new list with up to $num elements
+
+
+<hr />
+
+
+### Lst::takeWhile  
+
+**Description**
+
+```php
+public static takeWhile (callable $fn)
+```
+
+Returns a new list containing elements from the start of the input list until the predicate function $fn returns false. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+: The predicate function  
+
+**Return Values**
+
+`\T[]`
+
+> A new list with elements up to where $fn first returns false
 
 
 <hr />

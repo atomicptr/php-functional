@@ -2,9 +2,9 @@
 
 namespace Atomicptr\Functional;
 
+use Atomicptr\Functional\Exceptions\ImmutableException;
 use ArrayAccess;
 use ArrayIterator;
-use Atomicptr\Functional\Exceptions\ImmutableException;
 use Iterator;
 use IteratorAggregate;
 use OutOfRangeException;
@@ -19,8 +19,7 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
 {
     private function __construct(
         private array $data = [],
-    ) {
-    }
+    ) {}
 
     /**
      * Create a new collection from an already existing list
@@ -147,6 +146,19 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     public function find(callable $fn): Option
     {
         return Lst::find($fn, $this->data);
+    }
+
+    /**
+     * Iterates over $list until one element applied to $fn returns true and
+     * returns the index of that element.
+     *
+     * @template T
+     * @param callable(T $elem, int $index): bool $fn
+     * @return Option<K>
+     */
+    public function findIndex(callable $fn, array $list): Option
+    {
+        return Lst::findIndex($fn, $this->data);
     }
 
     /**
@@ -326,6 +338,64 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     public function flatten(): static
     {
         return static::from(Lst::flatten($this->data));
+    }
+
+    /**
+     * Returns a new list containing the first $num elements of the input list.
+     *
+     * @param int $num The number of elements to take
+     * @return Collection<T> A new list with up to $num elements
+     */
+    public function take(int $num): static
+    {
+        return static::from(Lst::take($this->data, $num));
+    }
+
+    /**
+     * Returns a new list containing elements from the start of the input list
+     * until the predicate function $fn returns false.
+     *
+     * @param callable(T $elem, int $index): bool $fn The predicate function
+     * @return Collection<T> A new list with elements up to where $fn first returns false
+     */
+    public function takeWhile(callable $fn): static
+    {
+        return static::from(Lst::takeWhile($fn, $this->data));
+    }
+
+    /**
+     * Returns a new list with the first $num elements removed.
+     *
+     * @param int $num The number of elements to drop
+     * @return Collection<T> A new list with $num elements removed from the start
+     */
+    public function drop(int $num): static
+    {
+        return static::from(Lst::drop($this->data, $num));
+    }
+
+    /**
+     * Returns a new list with elements dropped from the start until the
+     * predicate function $fn returns false.
+     *
+     * @param callable(T $elem, K $index): bool $fn The predicate function
+     * @return Collection<T> A new list with elements dropped until $fn first returns false
+     */
+    public function dropWhile(callable $fn): static
+    {
+        return static::from(Lst::dropWhile($fn, $this->data));
+    }
+
+    /**
+     * Returns a portion of the list starting at $start with an optional length.
+     *
+     * @param int $start The starting index (default 0)
+     * @param ?int $length The number of elements to include (default null for all remaining)
+     * @return Collection<T> A new list containing the specified slice
+     */
+    public function slice(int $start = 0, ?int $length = null): static
+    {
+        return static::from(Lst::slice($this->data, $start, $length));
     }
 
     /**

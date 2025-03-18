@@ -13,9 +13,12 @@ Traversable, IteratorAggregate, ArrayAccess
 |------|-------------|
 |[append](#collectionappend)|Append another collection to this collection|
 |[cons](#collectioncons)|Add element to new list|
+|[drop](#collectiondrop)|Returns a new list with the first $num elements removed.|
+|[dropWhile](#collectiondropwhile)|Returns a new list with elements dropped from the start until the predicate function $fn returns false.|
 |[every](#collectionevery)|Check if all elements in the collection satisfy the predicate function|
 |[filter](#collectionfilter)|Filter the collection based on a predicate function|
 |[find](#collectionfind)|Find the first element that satisfies a predicate function|
+|[findIndex](#collectionfindindex)|Iterates over $list until one element applied to $fn returns true and returns the index of that element.|
 |[first](#collectionfirst)|Retrieves the first element of the list.|
 |[flatten](#collectionflatten)|Flatten a nested collection structure|
 |[foldl](#collectionfoldl)|Reduce the collection to a single value, applying the function from left to right|
@@ -39,9 +42,12 @@ Traversable, IteratorAggregate, ArrayAccess
 |[partition](#collectionpartition)|Partitions the input list into two arrays based on the given predicate function.|
 |[rev](#collectionrev)|Reverse the order of elements in the collection|
 |[second](#collectionsecond)|Retrieves the second element of the list.|
+|[slice](#collectionslice)|Returns a portion of the list starting at $start with an optional length.|
 |[some](#collectionsome)|Check if any element in the collection satisfies the predicate function|
 |[sort](#collectionsort)|Sort a list in increasing order according to a comparison function. The comparison function must return 0 if it's arguments compare as equal, a positive integer if the first is greater and a negative integer if the first is smaller (see spaceship operator: <=>)|
 |[sortUnique](#collectionsortunique)|Sort a list in increasing order according to a comparison function and remove duplicates.|
+|[take](#collectiontake)|Returns a new list containing the first $num elements of the input list.|
+|[takeWhile](#collectiontakewhile)|Returns a new list containing elements from the start of the input list until the predicate function $fn returns false.|
 |[third](#collectionthird)|Retrieves the third element of the list.|
 |[tl](#collectiontl)|Get a new collection with all elements except the first|
 |[toArray](#collectiontoarray)|Convert the collection to a PHP array|
@@ -97,6 +103,60 @@ Add element to new list
 `\Collection<\T|\U>`
 
 
+
+
+<hr />
+
+
+### Collection::drop  
+
+**Description**
+
+```php
+public drop (int $num)
+```
+
+Returns a new list with the first $num elements removed. 
+
+ 
+
+**Parameters**
+
+* `(int) $num`
+: The number of elements to drop  
+
+**Return Values**
+
+`\Collection<\T>`
+
+> A new list with $num elements removed from the start
+
+
+<hr />
+
+
+### Collection::dropWhile  
+
+**Description**
+
+```php
+public dropWhile (callable $fn)
+```
+
+Returns a new list with elements dropped from the start until the predicate function $fn returns false. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+: The predicate function  
+
+**Return Values**
+
+`\Collection<\T>`
+
+> A new list with elements dropped until $fn first returns false
 
 
 <hr />
@@ -173,6 +233,32 @@ Find the first element that satisfies a predicate function
 **Return Values**
 
 `\Option<\T>`
+
+
+
+
+<hr />
+
+
+### Collection::findIndex  
+
+**Description**
+
+```php
+public findIndex (callable $fn)
+```
+
+Iterates over $list until one element applied to $fn returns true and returns the index of that element. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+
+**Return Values**
+
+`\Option<\K>`
 
 
 
@@ -816,6 +902,35 @@ Retrieves the second element of the list.
 <hr />
 
 
+### Collection::slice  
+
+**Description**
+
+```php
+public slice (int $start, ?int $length)
+```
+
+Returns a portion of the list starting at $start with an optional length. 
+
+ 
+
+**Parameters**
+
+* `(int) $start`
+: The starting index (default 0)  
+* `(?int) $length`
+: The number of elements to include (default null for all remaining)  
+
+**Return Values**
+
+`\Collection<\T>`
+
+> A new list containing the specified slice
+
+
+<hr />
+
+
 ### Collection::some  
 
 **Description**
@@ -893,6 +1008,60 @@ keeping only the first occurrence.
 `\Collection<\T>`
 
 
+
+
+<hr />
+
+
+### Collection::take  
+
+**Description**
+
+```php
+public take (int $num)
+```
+
+Returns a new list containing the first $num elements of the input list. 
+
+ 
+
+**Parameters**
+
+* `(int) $num`
+: The number of elements to take  
+
+**Return Values**
+
+`\Collection<\T>`
+
+> A new list with up to $num elements
+
+
+<hr />
+
+
+### Collection::takeWhile  
+
+**Description**
+
+```php
+public takeWhile (callable $fn)
+```
+
+Returns a new list containing elements from the start of the input list until the predicate function $fn returns false. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+: The predicate function  
+
+**Return Values**
+
+`\Collection<\T>`
+
+> A new list with elements up to where $fn first returns false
 
 
 <hr />
