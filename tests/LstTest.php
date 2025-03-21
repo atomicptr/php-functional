@@ -159,3 +159,16 @@ test('Lst::groupBy', function () {
     expect($result->get('even')->value())->toBe([2, 4, 6, 8, 10]);
     expect($result->get('odd')->value())->toBe([1, 3, 5, 7, 9]);
 });
+
+test('Lst::tryNth', function () {
+    $res = Lst::tryNth([1, 2, 3], 1);
+    expect($res->isSome())->toBeTrue();
+    expect($res->value())->toBe(2);
+
+    $res = Lst::tryNth([1, 2, 3], 4);
+    expect($res->isSome())->toBeFalse();
+
+    $res = Lst::tryNth([1, null, 3], 1);
+    expect($res->isSome())->toBeTrue();
+    expect($res->value())->toBeNull();
+});

@@ -2,9 +2,9 @@
 
 namespace Atomicptr\Functional;
 
+use Atomicptr\Functional\Exceptions\ImmutableException;
 use ArrayAccess;
 use ArrayIterator;
-use Atomicptr\Functional\Exceptions\ImmutableException;
 use IteratorAggregate;
 use OutOfRangeException;
 use Traversable;
@@ -22,8 +22,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
 {
     private function __construct(
         private \stdClass $data = new \stdClass()
-    ) {
-    }
+    ) {}
 
     /**
      * Sets a new key-value pair in the map, returning a new Map instance.
@@ -58,7 +57,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function get(mixed $key): Option
     {
-        if (! $this->exists($key)) {
+        if (!$this->exists($key)) {
             return Option::none();
         }
         return Option::some($this->data->{$key});
@@ -72,10 +71,10 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function remove(mixed $key): static
     {
-        if (! $this->exists($key)) {
+        if (!$this->exists($key)) {
             return $this;
         }
-        return static::fromList(Lst::filter(fn (array $pair) => Lst::first($pair) !== $key, $this->toList()));
+        return static::fromList(Lst::filter(fn(array $pair) => Lst::first($pair) !== $key, $this->toList()));
     }
 
     /**
@@ -105,7 +104,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function find(callable $fn): Option
     {
-        $result = Lst::find(fn (array $pair) => $fn(Lst::first($pair), Lst::second($pair)), $this->toList());
+        $result = Lst::find(fn(array $pair) => $fn(Lst::first($pair), Lst::second($pair)), $this->toList());
         if ($result->isNone()) {
             return Option::none();
         }
@@ -131,7 +130,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function intersect(Map $other): static
     {
-        return $this->union($other)->filter(fn (mixed $key) => $this->exists($key));
+        return $this->union($other)->filter(fn(mixed $key) => $this->exists($key));
     }
 
     /**
@@ -142,7 +141,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function filter(callable $fn): static
     {
-        return static::fromList(Lst::filter(fn (array $pair) => $fn(Lst::first($pair), Lst::second($pair)), $this->toList()));
+        return static::fromList(Lst::filter(fn(array $pair) => $fn(Lst::first($pair), Lst::second($pair)), $this->toList()));
     }
 
     /**
@@ -154,7 +153,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function map(callable $fn): static
     {
-        return static::fromList(Lst::map(fn (array $pair) => [Lst::first($pair), $fn(Lst::first($pair), Lst::second($pair))], $this->toList()));
+        return static::fromList(Lst::map(fn(array $pair) => [Lst::first($pair), $fn(Lst::first($pair), Lst::second($pair))], $this->toList()));
     }
 
     /**
@@ -204,7 +203,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function toArray(): array
     {
-        return (array)$this->data;
+        return (array) $this->data;
     }
 
     /**
@@ -214,7 +213,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public function toList(): array
     {
-        return Lst::map(fn (mixed $key) => [$key, $this->data->{$key}], $this->keys());
+        return Lst::map(fn(mixed $key) => [$key, $this->data->{$key}], $this->keys());
     }
 
     /**
@@ -237,7 +236,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      */
     public static function from(array $data): static
     {
-        return new static((object)$data);
+        return new static((object) $data);
     }
 
     /**
@@ -253,7 +252,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
     {
         $map = [];
         foreach ($pairs as $pair) {
-            assert(count($pair) === 2, "every pair must contain of two elements");
+            assert(count($pair) === 2, 'every pair must contain of two elements');
             list($key, $value) = $pair;
             $map[$key] = $value;
         }

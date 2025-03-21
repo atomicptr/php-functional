@@ -283,7 +283,7 @@ final class Lst
     {
         $lst = array_values($lst);
 
-        if (isset($lst[$index])) {
+        if (array_key_exists($index, $lst)) {
             return Option::some($lst[$index]);
         }
 
