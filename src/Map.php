@@ -18,7 +18,7 @@ use Traversable;
  * @template TKey
  * @template TValue
  */
-final class Map implements Traversable, IteratorAggregate, ArrayAccess
+final class Map implements Traversable, IteratorAggregate, ArrayAccess, Functor
 {
     private function __construct(
         private \stdClass $data = new \stdClass()
