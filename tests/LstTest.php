@@ -20,7 +20,7 @@ test('Lst::partition', function () {
 test('Lst::find', function () {
     $res = Lst::find(fn(int $num) => $num % 2 === 0, [1, 3, 5, 6, 10]);
     expect($res->isSome())->toBeTrue();
-    expect($res->value())->toBe(6);
+    expect($res->get())->toBe(6);
 
     $res = Lst::find(fn(int $num) => $num % 2 === 0, [1, 3, 5, 7]);
     expect($res->isSome())->toBeFalse();
@@ -30,7 +30,7 @@ test('Lst::find', function () {
 test('Lst::findIndex', function () {
     $res = Lst::findIndex(fn(int $num) => $num % 2 === 0, [1, 3, 5, 6, 10]);
     expect($res->isSome())->toBeTrue();
-    expect($res->value())->toBe(3);
+    expect($res->get())->toBe(3);
 
     $res = Lst::findIndex(fn(int $num) => $num % 2 === 0, [1, 3, 5, 7]);
     expect($res->isSome())->toBeFalse();
@@ -156,19 +156,19 @@ test('Lst::sortUnique', function () {
 
 test('Lst::groupBy', function () {
     $result = Lst::groupBy(fn(int $num) => $num % 2 === 0 ? 'even' : 'odd', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    expect($result->get('even')->value())->toBe([2, 4, 6, 8, 10]);
-    expect($result->get('odd')->value())->toBe([1, 3, 5, 7, 9]);
+    expect($result->get('even')->get())->toBe([2, 4, 6, 8, 10]);
+    expect($result->get('odd')->get())->toBe([1, 3, 5, 7, 9]);
 });
 
 test('Lst::tryNth', function () {
     $res = Lst::tryNth([1, 2, 3], 1);
     expect($res->isSome())->toBeTrue();
-    expect($res->value())->toBe(2);
+    expect($res->get())->toBe(2);
 
     $res = Lst::tryNth([1, 2, 3], 4);
     expect($res->isSome())->toBeFalse();
 
     $res = Lst::tryNth([1, null, 3], 1);
     expect($res->isSome())->toBeTrue();
-    expect($res->value())->toBeNull();
+    expect($res->get())->toBeNull();
 });

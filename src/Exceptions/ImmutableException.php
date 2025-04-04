@@ -9,10 +9,10 @@ class ImmutableException extends RuntimeException
 {
     public const CODE = 1727081676;
 
-    public function __construct(Throwable $previous = null)
+    public function __construct(?Throwable $previous = null)
     {
         parent::__construct(
-            "Attempted to modify an immutable object.",
+            'Attempted to modify an immutable object.',
             static::CODE,
             $previous,
         );

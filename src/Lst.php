@@ -303,7 +303,7 @@ final class Lst
     {
         $val = static::tryNth($lst, $index);
         assert($val->isSome());
-        return $val->value();
+        return $val->get();
     }
 
     /**
@@ -473,7 +473,7 @@ final class Lst
             return $lst;
         }
 
-        $index = $index->value();
+        $index = $index->get();
 
         if ($index >= count($lst)) {
             return $lst;
@@ -514,7 +514,7 @@ final class Lst
             return [];
         }
 
-        $index = $index->value();
+        $index = $index->get();
 
         if ($index >= count($lst)) {
             return [];
@@ -615,7 +615,7 @@ final class Lst
     {
         return Lst::foldl(function (Map $map, mixed $elem) use ($fn) {
             $key = $fn($elem);
-            return $map->update($key, fn(Option $value) => $value->isSome() ? [...$value->value(), $elem] : [$elem]);
+            return $map->update($key, fn(Option $value) => $value->isSome() ? [...$value->get(), $elem] : [$elem]);
         }, $lst, Map::empty());
     }
 }

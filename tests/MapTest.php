@@ -18,13 +18,13 @@ test('Map::get', function () {
     $map = Map::from(['a' => 42]);
     $value = $map->get('a');
     expect($value->isSome())->toBeTrue();
-    expect($value->value())->toBe(42);
+    expect($value->get())->toBe(42);
 });
 
 test('Map::set', function () {
     $map = Map::from(['a' => 42]);
     $map = $map->set('a', 1337);
-    expect($map->get('a')->value())->toBe(1337);
+    expect($map->get('a')->get())->toBe(1337);
 });
 
 test('Map::exists', function () {
@@ -47,7 +47,7 @@ test('Map::remove', function () {
 });
 
 test('Map::update', function () {
-    $updateOrInit = fn(Option $value) => Option::some($value->isNone() ? 0 : $value->value() + 1);
+    $updateOrInit = fn(Option $value) => Option::some($value->isNone() ? 0 : $value->get() + 1);
     $map = Map::empty()
         ->update('a', $updateOrInit)
         ->update('a', $updateOrInit)
@@ -56,7 +56,7 @@ test('Map::update', function () {
         ->update('a', $updateOrInit)
         ->update('a', $updateOrInit);
     expect($map->get('a')->isSome())->toBeTrue();
-    expect($map->get('a')->value())->toBe(5);
+    expect($map->get('a')->get())->toBe(5);
 });
 
 test('Map::find', function () {
@@ -64,7 +64,7 @@ test('Map::find', function () {
 
     $a = $map->find(fn(mixed $key) => $key === 'a');
     expect($a->isSome())->toBeTrue();
-    expect($a->value())->toBe(5);
+    expect($a->get())->toBe(5);
 
     $b = $map->find(fn(mixed $key) => $key === 'b');
     expect($b->isSome())->toBeFalse();
@@ -76,9 +76,9 @@ test('Map::union', function () {
 
     $res = $a->union($b);
 
-    expect($res->get('a')->value())->toBe(10);
-    expect($res->get('b')->value())->toBe(10);
-    expect($res->get('c')->value())->toBe(10);
+    expect($res->get('a')->get())->toBe(10);
+    expect($res->get('b')->get())->toBe(10);
+    expect($res->get('c')->get())->toBe(10);
 });
 
 test('Map::intersect', function () {
@@ -87,9 +87,9 @@ test('Map::intersect', function () {
 
     $res = $a->intersect($b);
 
-    expect($res->get('a')->value())->toBe(10);
+    expect($res->get('a')->get())->toBe(10);
     expect($res->get('b')->isNone())->toBeTrue();
-    expect($res->get('c')->value())->toBe(10);
+    expect($res->get('c')->get())->toBe(10);
 });
 
 test('Map::toList', function () {

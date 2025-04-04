@@ -93,7 +93,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
         if ($result->isNone()) {
             return $this->remove($key);
         }
-        return $this->set($key, $result->value());
+        return $this->set($key, $result->get());
     }
 
     /**
@@ -108,7 +108,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
         if ($result->isNone()) {
             return Option::none();
         }
-        return Option::some(Lst::second($result->value()));
+        return Option::some(Lst::second($result->get()));
     }
 
     /**
@@ -317,7 +317,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
         if ($value->isNone()) {
             throw new OutOfRangeException("Map: Invalid index requested: $offset");
         }
-        return $this->get($offset)->value();
+        return $this->get($offset)->get();
     }
 
     /**

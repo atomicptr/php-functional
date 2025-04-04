@@ -156,7 +156,7 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
      * @param callable(T $elem, int $index): bool $fn
      * @return Option<K>
      */
-    public function findIndex(callable $fn, array $list): Option
+    public function findIndex(callable $fn): Option
     {
         return Lst::findIndex($fn, $this->data);
     }
@@ -482,7 +482,7 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
         if ($value->isNone()) {
             throw new OutOfRangeException("Collection: Invalid index requested: $offset");
         }
-        return $this->get($offset)->value();
+        return $this->get($offset)->get();
     }
 
     /**

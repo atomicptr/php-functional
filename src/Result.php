@@ -3,6 +3,7 @@
 namespace Atomicptr\Functional;
 
 use Atomicptr\Functional\Exceptions\ResultError;
+use Deprecated;
 use Stringable;
 use Throwable;
 
@@ -10,36 +11,30 @@ use Throwable;
  * Represents a result of an operation that can either succeed with a value or fail with an error.
  *
  * @template T The type of the success value
- * @template Err of string|Stringable The type of the error value
+ * @template Err of string|Stringable|Throwable The type of the error value
  */
-final readonly class Result
+abstract class Result implements Monad
 {
-    private function __construct(
-        private mixed $value,
-        private string|Stringable|null $error,
-    ) {
-    }
-
     /**
      * Creates a successful Result containing the given value.
      *
      * @param T $value The success value
-     * @return Result<T, Err> A Result representing success
+     * @return Ok<T> A Result representing success
      */
     public static function ok(mixed $value): static
     {
-        return new static($value, null);
+        return new Ok($value);
     }
 
     /**
      * Creates a failed Result containing the given error.
      *
      * @param Err $error The error value
-     * @return Result<T, Err> A Result representing failure
+     * @return Error<Err> A Result representing failure
      */
-    public static function error(string|Stringable $error): static
+    public static function error(string|Stringable|Throwable $error): static
     {
-        return new static(null, $error);
+        return new Error($error);
     }
 
     /**
@@ -65,7 +60,7 @@ final readonly class Result
      */
     public function isOk(): bool
     {
-        return $this->error === null;
+        return $this instanceof Ok;
     }
 
     /**
@@ -75,17 +70,7 @@ final readonly class Result
      */
     public function hasError(): bool
     {
-        return $this->error !== null;
-    }
-
-    /**
-     * Returns the error value if this Result represents an error.
-     *
-     * @return Err|null The error value, or null if this Result represents success
-     */
-    public function errorValue(): string|Stringable|null
-    {
-        return $this->error;
+        return $this instanceof Error;
     }
 
     /**
@@ -95,31 +80,11 @@ final readonly class Result
      * @return T The success value
      * @throws \AssertionError If this Result represents an error
      */
+    #[Deprecated('Use ->get() instead')]
     public function value(): mixed
     {
-        assert(!$this->hasError(), "Result::value: Accessed Result that had an error: " . $this->errorValue());
-        return $this->value;
-    }
-
-    /**
-     * Applies a function to the success value (if any) and returns the result.
-     * If this Result represents an error, returns the original error Result without calling the function.
-     *
-     * @template U
-     * @template E
-     * @param callable(T): Result<U, E> $fn The function to apply to the success value
-     * @return Result<U, E> The result of applying the function, or the original error Result
-     */
-    public function bind(callable $fn): static
-    {
-        if ($this->hasError()) {
-            return $this;
-        }
-
-        $res = $fn($this->value());
-        assert($res instanceof static, "Result::bind closure must return a Result");
-
-        return $res;
+        assert(!$this->hasError(), 'Result::value: Accessed Result that had an error');
+        return $this->get();
     }
 
     /**
@@ -132,9 +97,8 @@ final readonly class Result
         if ($this->hasError()) {
             return Option::none();
         }
-        return Option::some($this->value());
+        return Option::some($this->get());
     }
-
 
     /**
      * Returns value of object if present, otherwise returns $value (executes it if its callable)
@@ -146,7 +110,7 @@ final readonly class Result
     public function orElse(mixed $value): mixed
     {
         if ($this->isOk()) {
-            return $this->value();
+            return $this->get();
         }
 
         if (is_callable($value)) {
@@ -163,18 +127,5 @@ final readonly class Result
     public function panic(): void
     {
         throw new ResultError($this);
-    }
-
-    /**
-     * Returns a collection of T when it has a value, otherwise returns an empty collection.
-     *
-     * @return Collection<T>
-     */
-    public function collection(): Collection
-    {
-        if ($this->hasError()) {
-            return Collection::from([]);
-        }
-        return Collection::from([$this->value()]);
     }
 }
