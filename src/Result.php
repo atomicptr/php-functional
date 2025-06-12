@@ -101,6 +101,28 @@ abstract class Result implements Monad
     }
 
     /**
+     * Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.
+     *
+     * @template U
+     * @template UErr
+     * @param callable(T): U|Error<U, UErr>
+     * @return Result<U, UErr>
+     */
+    public function flatMap(callable $fn): static
+    {
+        if ($this->hasError()) {
+            return $this;
+        }
+
+        $res = $fn($this->get());
+        if ($res instanceof Result) {
+            return $res;
+        }
+
+        return static::ok($res);
+    }
+
+    /**
      * Returns value of object if present, otherwise returns $value (executes it if its callable)
      *
      * @template U

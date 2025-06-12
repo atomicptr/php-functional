@@ -41,6 +41,19 @@ test('Result::toOption', function () {
     expect($res->get())->toBe(1337);
 });
 
+test('Result::flatMap', function () {
+    $res = Result::ok('test')->flatMap(fn(string $str) => strtoupper($str));
+    expect($res->isOk())->toBeTrue();
+    expect($res->get())->toBe('TEST');
+
+    $res = Result::ok('test')->flatMap(fn(string $str) => Result::ok(strtoupper($str)));
+    expect($res->isOk())->toBeTrue();
+    expect($res->get())->toBe('TEST');
+
+    $res = Result::error('')->flatMap(fn(string $str) => strtoupper($str));
+    expect($res->hasError())->toBeTrue();
+});
+
 test('Result::orElse', function () {
     $res = Result::ok('test')->orElse(fn() => 'yes');
     expect($res)->toBe('test');

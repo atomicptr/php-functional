@@ -11,6 +11,19 @@ test('Option::bind', function () {
     expect($res->isNone())->toBeTrue();
 });
 
+test('Option::flatMap', function () {
+    $res = Option::some('test')->flatMap(fn(string $str) => strtoupper($str));
+    expect($res->isSome())->toBeTrue();
+    expect($res->get())->toBe('TEST');
+
+    $res = Option::some('test')->flatMap(fn(string $str) => Option::some(strtoupper($str)));
+    expect($res->isSome())->toBeTrue();
+    expect($res->get())->toBe('TEST');
+
+    $res = Option::none()->flatMap(fn(string $str) => strtoupper($str));
+    expect($res->isNone())->toBeTrue();
+});
+
 test('Option::orElse', function () {
     $res = Option::some('test')->orElse(fn() => 'yes');
     expect($res)->toBe('test');

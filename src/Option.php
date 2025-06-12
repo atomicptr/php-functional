@@ -66,6 +66,27 @@ abstract class Option implements Monad
     }
 
     /**
+     * Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.
+     *
+     * @template U
+     * @param callable(T): U|Option<U>
+     * @return Option<U>
+     */
+    public function flatMap(callable $fn): static
+    {
+        if ($this->isNone()) {
+            return $this;
+        }
+
+        $res = $fn($this->get());
+        if ($res instanceof Option) {
+            return $res;
+        }
+
+        return static::some($res);
+    }
+
+    /**
      * Returns value of object if present, otherwise returns $value (executes it if its callable)
      *
      * @template U
