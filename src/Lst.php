@@ -442,6 +442,24 @@ final class Lst
     }
 
     /**
+     * Applies the function $fn to every element of $list and builds a new
+     * flattened list with the results returned by $fn.
+     *
+     * @see Lst::map
+     * @see Lst::flatten
+     *
+     * @template T
+     * @template K
+     * @param callable(T $elem, K $index): T $fn
+     * @param array<K, T> $list
+     * @return array<K, T>
+     */
+    public static function flatMap(callable $fn, array $lst): array
+    {
+        return static::flatten(static::map($fn, $lst));
+    }
+
+    /**
      * Returns a new list containing the first $num elements of the input list.
      *
      * @template T

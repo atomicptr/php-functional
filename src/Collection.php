@@ -341,6 +341,18 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess, F
     }
 
     /**
+     * Apply a function to each element in the collection and than flatten it
+     *
+     * @template U
+     * @param callable(T $elem, int $index): U $fn
+     * @return Collection<U>
+     */
+    public function flatMap(callable $fn): static
+    {
+        return static::from(Lst::flatten(Lst::map($fn, $this->data)));
+    }
+
+    /**
      * Returns a new list containing the first $num elements of the input list.
      *
      * @param int $num The number of elements to take

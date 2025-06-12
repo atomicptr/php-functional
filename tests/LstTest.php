@@ -100,6 +100,10 @@ test('Lst::flatten', function () {
     expect(Lst::flatten([[[1, 2], 3], [4, [5]], 6]))->toBe([1, 2, 3, 4, 5, 6]);
 });
 
+test('Lst::flatMap', function () {
+    expect(Lst::flatMap(fn(string $s) => explode(' ', $s), ['hello world', 'this is a list with', 'strings']))->toBe(['hello', 'world', 'this', 'is', 'a', 'list', 'with', 'strings']);
+});
+
 test('Lst::take', function () {
     expect(Lst::take([1, 2, 3, 4, 5], 2))->toBe([1, 2]);
     expect(Lst::take([1, 2, 3, 4, 5], 3))->toBe([1, 2, 3]);
