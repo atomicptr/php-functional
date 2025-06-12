@@ -7,6 +7,8 @@ use Deprecated;
 /**
  * Represents an optional value: every Option is either Some and contains a value, or None, and does not.
  * This type is used in cases where a value may or may not be present.
+ *
+ * @template T
  */
 abstract class Option implements Monad
 {
