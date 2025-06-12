@@ -4,7 +4,8 @@ Represents an optional value: every Option is either Some and contains a value, 
 
 This type is used in cases where a value may or may not be present.  
 
-
+## Implements:
+Atomicptr\Functional\Monad
 
 
 
@@ -12,8 +13,9 @@ This type is used in cases where a value may or may not be present.
 
 | Name | Description |
 |------|-------------|
-|[bind](#optionbind)|Applies a function to the contained value (if any) and returns the result.|
-|[collection](#optioncollection)|Returns a collection of T when it has a value, otherwise returns an empty collection.|
+|[bind](#optionbind)||
+|[flatMap](#optionflatmap)|Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.|
+|[get](#optionget)||
 |[isNone](#optionisnone)|Checks if this Option is a None variant.|
 |[isSome](#optionissome)|Checks if this Option is a Some variant.|
 |[none](#optionnone)|Creates a None variant of Option, representing the absence of a value.|
@@ -29,37 +31,10 @@ This type is used in cases where a value may or may not be present.
 **Description**
 
 ```php
-public bind (callable $fn)
+ bind (void)
 ```
 
-Applies a function to the contained value (if any) and returns the result. 
-
-If this Option is None, returns None without calling the function. 
-
-**Parameters**
-
-* `(callable) $fn`
-: The function to apply to the contained value.  
-
-**Return Values**
-
-`\Option<\U>`
-
-> The result of applying the function, or None if this Option is None.
-
-
-<hr />
-
-
-### Option::collection  
-
-**Description**
-
-```php
-public collection (void)
-```
-
-Returns a collection of T when it has a value, otherwise returns an empty collection. 
+ 
 
  
 
@@ -69,9 +44,58 @@ Returns a collection of T when it has a value, otherwise returns an empty collec
 
 **Return Values**
 
-`\Collection<\T>`
+`void`
 
 
+<hr />
+
+
+### Option::flatMap  
+
+**Description**
+
+```php
+public flatMap (\T $)
+```
+
+Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result. 
+
+ 
+
+**Parameters**
+
+* `(\T) $`
+: U|Option<U>  
+
+**Return Values**
+
+`\Option<\U>`
+
+
+
+
+<hr />
+
+
+### Option::get  
+
+**Description**
+
+```php
+ get (void)
+```
+
+ 
+
+ 
+
+**Parameters**
+
+`This function has no parameters.`
+
+**Return Values**
+
+`void`
 
 
 <hr />
@@ -147,7 +171,7 @@ Creates a None variant of Option, representing the absence of a value.
 
 **Return Values**
 
-`\Option<\T>`
+`\None`
 
 > An Option representing no value.
 
@@ -200,7 +224,7 @@ Creates a Some variant of Option containing the given value.
 
 **Return Values**
 
-`\Option<\T>`
+`\Some<\T>`
 
 > An Option containing the value.
 

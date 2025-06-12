@@ -21,6 +21,7 @@ Note: Map like arrays are generally unsupported but might work, this class is fo
 |[find](#lstfind)|Iterates over $list until one element applied to $fn returns true and return that element.|
 |[findIndex](#lstfindindex)|Iterates over $list until one element applied to $fn returns true and returns the index of that element.|
 |[first](#lstfirst)|Retrieves the first element of the list.|
+|[flatMap](#lstflatmap)|Applies the function $fn to every element of $list and builds a new flattened list with the results returned by $fn.|
 |[flatten](#lstflatten)|Flattens a nested array structure.|
 |[foldl](#lstfoldl)|Reduces the array to a single value by applying $fn from left to right.|
 |[foldr](#lstfoldr)|Reduces the array to a single value by applying $fn from right to left.|
@@ -291,6 +292,30 @@ Retrieves the first element of the list.
 
 `\AssertionError`
 > If the list is empty
+
+<hr />
+
+
+### Lst::flatMap  
+
+**Description**
+
+```php
+public static flatMap (callable $fn)
+```
+
+Applies the function $fn to every element of $list and builds a new flattened list with the results returned by $fn. 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+
+**Return Values**
+
+`void`
+
 
 <hr />
 

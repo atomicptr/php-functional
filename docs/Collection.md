@@ -3,7 +3,7 @@
 A wrapper around PHP arrays enabling piping several functions together
 
 ## Implements:
-Traversable, IteratorAggregate, ArrayAccess
+Traversable, IteratorAggregate, ArrayAccess, Atomicptr\Functional\Functor
 
 
 
@@ -20,6 +20,7 @@ Traversable, IteratorAggregate, ArrayAccess
 |[find](#collectionfind)|Find the first element that satisfies a predicate function|
 |[findIndex](#collectionfindindex)|Iterates over $list until one element applied to $fn returns true and returns the index of that element.|
 |[first](#collectionfirst)|Retrieves the first element of the list.|
+|[flatMap](#collectionflatmap)|Apply a function to each element in the collection and than flatten it|
 |[flatten](#collectionflatten)|Flatten a nested collection structure|
 |[foldl](#collectionfoldl)|Reduce the collection to a single value, applying the function from left to right|
 |[foldr](#collectionfoldr)|Reduce the collection to a single value, applying the function from right to left|
@@ -294,6 +295,32 @@ Retrieves the first element of the list.
 
 `\AssertionError`
 > If the list is empty
+
+<hr />
+
+
+### Collection::flatMap  
+
+**Description**
+
+```php
+public flatMap (callable $fn)
+```
+
+Apply a function to each element in the collection and than flatten it 
+
+ 
+
+**Parameters**
+
+* `(callable) $fn`
+
+**Return Values**
+
+`\Collection<\U>`
+
+
+
 
 <hr />
 

@@ -2,7 +2,8 @@
 
 Represents a result of an operation that can either succeed with a value or fail with an error.
 
-
+## Implements:
+Atomicptr\Functional\Monad
 
 
 
@@ -10,11 +11,11 @@ Represents a result of an operation that can either succeed with a value or fail
 
 | Name | Description |
 |------|-------------|
-|[bind](#resultbind)|Applies a function to the success value (if any) and returns the result.|
+|[bind](#resultbind)||
 |[capture](#resultcapture)|Executes a function and captures its result or any thrown exception into a Result.|
-|[collection](#resultcollection)|Returns a collection of T when it has a value, otherwise returns an empty collection.|
 |[error](#resulterror)|Creates a failed Result containing the given error.|
-|[errorValue](#resulterrorvalue)|Returns the error value if this Result represents an error.|
+|[flatMap](#resultflatmap)|Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.|
+|[get](#resultget)||
 |[hasError](#resulthaserror)|Checks if this Result represents an error.|
 |[isOk](#resultisok)|Checks if the Result is OK|
 |[ok](#resultok)|Creates a successful Result containing the given value.|
@@ -31,23 +32,20 @@ Represents a result of an operation that can either succeed with a value or fail
 **Description**
 
 ```php
-public bind (callable $fn)
+ bind (void)
 ```
 
-Applies a function to the success value (if any) and returns the result. 
+ 
 
-If this Result represents an error, returns the original error Result without calling the function. 
+ 
 
 **Parameters**
 
-* `(callable) $fn`
-: The function to apply to the success value  
+`This function has no parameters.`
 
 **Return Values**
 
-`\Result<\U,\E>`
-
-> The result of applying the function, or the original error Result
+`void`
 
 
 <hr />
@@ -80,32 +78,6 @@ Executes a function and captures its result or any thrown exception into a Resul
 <hr />
 
 
-### Result::collection  
-
-**Description**
-
-```php
-public collection (void)
-```
-
-Returns a collection of T when it has a value, otherwise returns an empty collection. 
-
- 
-
-**Parameters**
-
-`This function has no parameters.`
-
-**Return Values**
-
-`\Collection<\T>`
-
-
-
-
-<hr />
-
-
 ### Result::error  
 
 **Description**
@@ -125,7 +97,7 @@ Creates a failed Result containing the given error.
 
 **Return Values**
 
-`\Result<\T,\Err>`
+`\Error<\Err>`
 
 > A Result representing failure
 
@@ -133,15 +105,42 @@ Creates a failed Result containing the given error.
 <hr />
 
 
-### Result::errorValue  
+### Result::flatMap  
 
 **Description**
 
 ```php
-public errorValue (void)
+public flatMap (\T $)
 ```
 
-Returns the error value if this Result represents an error. 
+Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result. 
+
+ 
+
+**Parameters**
+
+* `(\T) $`
+: U|Error<U, UErr>  
+
+**Return Values**
+
+`\Result<\U,\UErr>`
+
+
+
+
+<hr />
+
+
+### Result::get  
+
+**Description**
+
+```php
+ get (void)
+```
+
+ 
 
  
 
@@ -151,9 +150,7 @@ Returns the error value if this Result represents an error.
 
 **Return Values**
 
-`\Err|null`
-
-> The error value, or null if this Result represents success
+`void`
 
 
 <hr />
@@ -230,7 +227,7 @@ Creates a successful Result containing the given value.
 
 **Return Values**
 
-`\Result<\T,\Err>`
+`\Ok<\T>`
 
 > A Result representing success
 
