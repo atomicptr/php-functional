@@ -4,8 +4,7 @@ Represents an optional value: every Option is either Some and contains a value, 
 
 This type is used in cases where a value may or may not be present.  
 
-## Implements:
-Atomicptr\Functional\Monad
+
 
 
 
@@ -13,68 +12,15 @@ Atomicptr\Functional\Monad
 
 | Name | Description |
 |------|-------------|
-|[bind](#optionbind)||
-|[flatMap](#optionflatmap)|Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.|
-|[get](#optionget)||
+|[get](#optionget)|Returns the contained value if this Option is Some.|
 |[isNone](#optionisnone)|Checks if this Option is a None variant.|
 |[isSome](#optionissome)|Checks if this Option is a Some variant.|
+|[map](#optionmap)|Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.|
 |[none](#optionnone)|Creates a None variant of Option, representing the absence of a value.|
 |[orElse](#optionorelse)|Returns value of object if present, otherwise returns $value (executes it if its callable)|
 |[some](#optionsome)|Creates a Some variant of Option containing the given value.|
-|[value](#optionvalue)|Returns the contained value if this Option is Some.|
 
 
-
-
-### Option::bind  
-
-**Description**
-
-```php
- bind (void)
-```
-
- 
-
- 
-
-**Parameters**
-
-`This function has no parameters.`
-
-**Return Values**
-
-`void`
-
-
-<hr />
-
-
-### Option::flatMap  
-
-**Description**
-
-```php
-public flatMap (\T $)
-```
-
-Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result. 
-
- 
-
-**Parameters**
-
-* `(\T) $`
-: U|Option<U>  
-
-**Return Values**
-
-`\Option<\U>`
-
-
-
-
-<hr />
 
 
 ### Option::get  
@@ -82,12 +28,12 @@ Returns None if the option is None, otherwise calls fn with the wrapped value an
 **Description**
 
 ```php
- get (void)
+public get (void)
 ```
 
- 
+Returns the contained value if this Option is Some. 
 
- 
+Throws an assertion error if this Option is None. 
 
 **Parameters**
 
@@ -95,8 +41,16 @@ Returns None if the option is None, otherwise calls fn with the wrapped value an
 
 **Return Values**
 
-`void`
+`\T`
 
+> The contained value.
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If this Option is None.
 
 <hr />
 
@@ -148,6 +102,33 @@ Checks if this Option is a Some variant.
 `bool`
 
 > True if this Option is Some, false otherwise.
+
+
+<hr />
+
+
+### Option::map  
+
+**Description**
+
+```php
+public map (\T $)
+```
+
+Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result. 
+
+ 
+
+**Parameters**
+
+* `(\T) $`
+: U|Option<U>  
+
+**Return Values**
+
+`\Option<\U>`
+
+
 
 
 <hr />
@@ -228,38 +209,6 @@ Creates a Some variant of Option containing the given value.
 
 > An Option containing the value.
 
-
-<hr />
-
-
-### Option::value  
-
-**Description**
-
-```php
-public value (void)
-```
-
-Returns the contained value if this Option is Some. 
-
-Throws an assertion error if this Option is None. 
-
-**Parameters**
-
-`This function has no parameters.`
-
-**Return Values**
-
-`\T`
-
-> The contained value.
-
-
-**Throws Exceptions**
-
-
-`\AssertionError`
-> If this Option is None.
 
 <hr />
 

@@ -2,8 +2,7 @@
 
 Represents a result of an operation that can either succeed with a value or fail with an error.
 
-## Implements:
-Atomicptr\Functional\Monad
+
 
 
 
@@ -11,44 +10,19 @@ Atomicptr\Functional\Monad
 
 | Name | Description |
 |------|-------------|
-|[bind](#resultbind)||
 |[capture](#resultcapture)|Executes a function and captures its result or any thrown exception into a Result.|
 |[error](#resulterror)|Creates a failed Result containing the given error.|
-|[flatMap](#resultflatmap)|Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.|
-|[get](#resultget)||
+|[errorValue](#resulterrorvalue)|Returns the error value if this Result represents an error.|
+|[get](#resultget)|Returns the success value if this Result represents success.|
 |[hasError](#resulthaserror)|Checks if this Result represents an error.|
 |[isOk](#resultisok)|Checks if the Result is OK|
+|[map](#resultmap)|Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.|
 |[ok](#resultok)|Creates a successful Result containing the given value.|
 |[orElse](#resultorelse)|Returns value of object if present, otherwise returns $value (executes it if its callable)|
 |[panic](#resultpanic)|Creates an exception out of the error, for re-integration with a "normal" PHP environment that expects exceptions|
 |[toOption](#resulttooption)|Result as an Option, mapping Result::ok(...) to Option::some(...) and Result::error(...) to Option::none()|
-|[value](#resultvalue)|Returns the success value if this Result represents success.|
 
 
-
-
-### Result::bind  
-
-**Description**
-
-```php
- bind (void)
-```
-
- 
-
- 
-
-**Parameters**
-
-`This function has no parameters.`
-
-**Return Values**
-
-`void`
-
-
-<hr />
 
 
 ### Result::capture  
@@ -105,29 +79,34 @@ Creates a failed Result containing the given error.
 <hr />
 
 
-### Result::flatMap  
+### Result::errorValue  
 
 **Description**
 
 ```php
-public flatMap (\T $)
+public errorValue (void)
 ```
 
-Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result. 
+Returns the error value if this Result represents an error. 
 
- 
+Throws an assertion error if this Result represents a successful value. 
 
 **Parameters**
 
-* `(\T) $`
-: U|Error<U, UErr>  
+`This function has no parameters.`
 
 **Return Values**
 
-`\Result<\U,\UErr>`
+`\T`
+
+> The success value
 
 
+**Throws Exceptions**
 
+
+`\AssertionError`
+> If this Result represents an error
 
 <hr />
 
@@ -137,12 +116,12 @@ Returns None if the option is None, otherwise calls fn with the wrapped value an
 **Description**
 
 ```php
- get (void)
+public get (void)
 ```
 
- 
+Returns the success value if this Result represents success. 
 
- 
+Throws an assertion error if this Result represents an error. 
 
 **Parameters**
 
@@ -150,8 +129,16 @@ Returns None if the option is None, otherwise calls fn with the wrapped value an
 
 **Return Values**
 
-`void`
+`\T`
 
+> The success value
+
+
+**Throws Exceptions**
+
+
+`\AssertionError`
+> If this Result represents an error
 
 <hr />
 
@@ -201,6 +188,33 @@ Checks if the Result is OK
 **Return Values**
 
 `bool`
+
+
+
+
+<hr />
+
+
+### Result::map  
+
+**Description**
+
+```php
+public map (\T $)
+```
+
+Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result. 
+
+ 
+
+**Parameters**
+
+* `(\T) $`
+: U|Error<U, UErr>  
+
+**Return Values**
+
+`\Result<\U,\UErr>`
 
 
 
@@ -313,38 +327,6 @@ Result as an Option, mapping Result::ok(...) to Option::some(...) and Result::er
 
 
 
-
-<hr />
-
-
-### Result::value  
-
-**Description**
-
-```php
-public value (void)
-```
-
-Returns the success value if this Result represents success. 
-
-Throws an assertion error if this Result represents an error. 
-
-**Parameters**
-
-`This function has no parameters.`
-
-**Return Values**
-
-`\T`
-
-> The success value
-
-
-**Throws Exceptions**
-
-
-`\AssertionError`
-> If this Result represents an error
 
 <hr />
 

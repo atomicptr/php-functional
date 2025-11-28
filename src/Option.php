@@ -2,25 +2,35 @@
 
 namespace Atomicptr\Functional;
 
-use Deprecated;
-
 /**
  * Represents an optional value: every Option is either Some and contains a value, or None, and does not.
  * This type is used in cases where a value may or may not be present.
  *
  * @template T
  */
-abstract class Option implements Monad
+final readonly class Option
 {
+    private const int VARIANT_NONE = 0;
+    private const int VARIANT_SOME = 1;
+
+    private function __construct(
+        private int $variant,
+
+        /**
+         * @var T|null
+         */
+        private mixed $value = null,
+    ) {}
+
     /**
      * Creates a Some variant of Option containing the given value.
      *
      * @param T $value The value to wrap in Some.
      * @return Some<T> An Option containing the value.
      */
-    public static function some(mixed $value): Some
+    public static function some(mixed $value): static
     {
-        return new Some($value);
+        return new Option(self::VARIANT_SOME, $value);
     }
 
     /**
@@ -28,9 +38,9 @@ abstract class Option implements Monad
      *
      * @return None An Option representing no value.
      */
-    public static function none(): None
+    public static function none(): static
     {
-        return new None();
+        return new Option(self::VARIANT_NONE);
     }
 
     /**
@@ -40,7 +50,7 @@ abstract class Option implements Monad
      */
     public function isSome(): bool
     {
-        return $this instanceof Some;
+        return $this->variant === self::VARIANT_SOME;
     }
 
     /**
@@ -50,7 +60,7 @@ abstract class Option implements Monad
      */
     public function isNone(): bool
     {
-        return $this instanceof None;
+        return $this->variant === self::VARIANT_NONE;
     }
 
     /**
@@ -60,11 +70,10 @@ abstract class Option implements Monad
      * @return T The contained value.
      * @throws \AssertionError If this Option is None.
      */
-    #[Deprecated('Use ->get() instead')]
-    public function value(): mixed
+    public function get(): mixed
     {
         assert($this->isSome(), 'Option::value: Accessed Optional that has no value');
-        return $this->get();
+        return $this->value;
     }
 
     /**
@@ -74,7 +83,7 @@ abstract class Option implements Monad
      * @param callable(T): U|Option<U>
      * @return Option<U>
      */
-    public function flatMap(callable $fn): static
+    public function map(callable $fn): static
     {
         if ($this->isNone()) {
             return $this;

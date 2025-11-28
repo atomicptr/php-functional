@@ -13,19 +13,6 @@ test('Result::capture', function () {
     expect($res->hasError())->toBeTrue();
 });
 
-test('Result::bind', function () {
-    $res = Result::ok('{"api": "api response ig?"}')
-        ->bind(fn(string $resp) => Result::capture(fn() => json_decode($resp, true, flags: JSON_THROW_ON_ERROR)))
-        ->bind(fn(array $data) => Result::ok($data['api']));
-    expect($res->hasError())->toBeFalse();
-    expect($res->get())->toBe('api response ig?');
-
-    $res = Result::ok('this is not json smile')
-        ->bind(fn(string $resp) => Result::capture(fn() => json_decode($resp, true, flags: JSON_THROW_ON_ERROR)))
-        ->bind(fn(array $data) => Result::ok($data['api']));
-    expect($res->hasError())->toBeTrue();
-});
-
 test('Result::panic', function () {
     Result::error('something went wrong')->panic();
 })->throws(ResultError::class);
@@ -41,16 +28,16 @@ test('Result::toOption', function () {
     expect($res->get())->toBe(1337);
 });
 
-test('Result::flatMap', function () {
-    $res = Result::ok('test')->flatMap(fn(string $str) => strtoupper($str));
+test('Result::map', function () {
+    $res = Result::ok('test')->map(fn(string $str) => strtoupper($str));
     expect($res->isOk())->toBeTrue();
     expect($res->get())->toBe('TEST');
 
-    $res = Result::ok('test')->flatMap(fn(string $str) => Result::ok(strtoupper($str)));
+    $res = Result::ok('test')->map(fn(string $str) => Result::ok(strtoupper($str)));
     expect($res->isOk())->toBeTrue();
     expect($res->get())->toBe('TEST');
 
-    $res = Result::error('')->flatMap(fn(string $str) => strtoupper($str));
+    $res = Result::error('')->map(fn(string $str) => strtoupper($str));
     expect($res->hasError())->toBeTrue();
 });
 

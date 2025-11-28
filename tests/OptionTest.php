@@ -2,25 +2,16 @@
 
 use Atomicptr\Functional\Option;
 
-test('Option::bind', function () {
-    $res = Option::some('test')->bind(fn(string $text) => Option::some($text === 'test' ? 'yes' : 'nope'));
-    expect($res->isNone())->toBeFalse();
-    expect($res->get())->toBe('yes');
-
-    $res = Option::none()->bind(fn(string $text) => Option::some($text === 'test' ? 'yes' : 'nope'));
-    expect($res->isNone())->toBeTrue();
-});
-
-test('Option::flatMap', function () {
-    $res = Option::some('test')->flatMap(fn(string $str) => strtoupper($str));
+test('Option::map', function () {
+    $res = Option::some('test')->map(fn(string $str) => strtoupper($str));
     expect($res->isSome())->toBeTrue();
     expect($res->get())->toBe('TEST');
 
-    $res = Option::some('test')->flatMap(fn(string $str) => Option::some(strtoupper($str)));
+    $res = Option::some('test')->map(fn(string $str) => Option::some(strtoupper($str)));
     expect($res->isSome())->toBeTrue();
     expect($res->get())->toBe('TEST');
 
-    $res = Option::none()->flatMap(fn(string $str) => strtoupper($str));
+    $res = Option::none()->map(fn(string $str) => strtoupper($str));
     expect($res->isNone())->toBeTrue();
 });
 

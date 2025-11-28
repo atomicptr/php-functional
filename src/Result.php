@@ -3,7 +3,7 @@
 namespace Atomicptr\Functional;
 
 use Atomicptr\Functional\Exceptions\ResultError;
-use Deprecated;
+use Exception;
 use Stringable;
 use Throwable;
 
@@ -13,8 +13,16 @@ use Throwable;
  * @template T The type of the success value
  * @template Err of string|Stringable|Throwable The type of the error value
  */
-abstract class Result implements Monad
+final readonly class Result
 {
+    private const int VARIANT_OK = 0;
+    private const int VARIANT_ERR = 1;
+
+    private function __construct(
+        private int $variant,
+        private mixed $value = null,
+    ) {}
+
     /**
      * Creates a successful Result containing the given value.
      *
@@ -23,7 +31,7 @@ abstract class Result implements Monad
      */
     public static function ok(mixed $value): static
     {
-        return new Ok($value);
+        return new Result(self::VARIANT_OK, $value);
     }
 
     /**
@@ -34,7 +42,7 @@ abstract class Result implements Monad
      */
     public static function error(string|Stringable|Throwable $error): static
     {
-        return new Error($error);
+        return new Result(self::VARIANT_ERR, $error);
     }
 
     /**
@@ -60,7 +68,7 @@ abstract class Result implements Monad
      */
     public function isOk(): bool
     {
-        return $this instanceof Ok;
+        return $this->variant === self::VARIANT_OK;
     }
 
     /**
@@ -70,7 +78,7 @@ abstract class Result implements Monad
      */
     public function hasError(): bool
     {
-        return $this instanceof Error;
+        return $this->variant === self::VARIANT_ERR;
     }
 
     /**
@@ -80,11 +88,23 @@ abstract class Result implements Monad
      * @return T The success value
      * @throws \AssertionError If this Result represents an error
      */
-    #[Deprecated('Use ->get() instead')]
-    public function value(): mixed
+    public function get(): mixed
     {
         assert(!$this->hasError(), 'Result::value: Accessed Result that had an error');
-        return $this->get();
+        return $this->value;
+    }
+
+    /**
+     * Returns the error value if this Result represents an error.
+     * Throws an assertion error if this Result represents a successful value.
+     *
+     * @return T The success value
+     * @throws \AssertionError If this Result represents an error
+     */
+    public function errorValue(): string|Stringable|Throwable
+    {
+        assert($this->hasError(), 'Result::value: Accessed Result that had a successful value');
+        return $this->value;
     }
 
     /**
@@ -108,7 +128,7 @@ abstract class Result implements Monad
      * @param callable(T): U|Error<U, UErr>
      * @return Result<U, UErr>
      */
-    public function flatMap(callable $fn): static
+    public function map(callable $fn): static
     {
         if ($this->hasError()) {
             return $this;

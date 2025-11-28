@@ -15,7 +15,7 @@ use Traversable;
  *
  * @template T
  */
-final class Collection implements Traversable, IteratorAggregate, ArrayAccess, Functor
+final class Collection implements Traversable, IteratorAggregate, ArrayAccess
 {
     private function __construct(
         private array $data = [],

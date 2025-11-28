@@ -3,7 +3,7 @@
 A wrapper around PHP arrays enabling piping several functions together
 
 ## Implements:
-Traversable, IteratorAggregate, ArrayAccess, Atomicptr\Functional\Functor
+Traversable, IteratorAggregate, ArrayAccess
 
 
 

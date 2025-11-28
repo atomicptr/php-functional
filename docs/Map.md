@@ -6,7 +6,7 @@ The Map class provides a safe, immutable way to store and manipulate key-value p
 with type-safe operations. All modification operations return a new instance of the map.  
 
 ## Implements:
-Traversable, IteratorAggregate, ArrayAccess, Atomicptr\Functional\Functor
+Traversable, IteratorAggregate, ArrayAccess
 
 
 
