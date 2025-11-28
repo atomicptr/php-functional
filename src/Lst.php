@@ -16,10 +16,11 @@ final class Lst
      * Same as array_map
      *
      * @template T
+     * @template U
      * @template K
-     * @param callable(T $elem, K $index): T $fn
+     * @param callable(T $elem, K $index): U $fn
      * @param array<K, T> $list
-     * @return array<K, T>
+     * @return array<K, U>
      */
     public static function map(callable $fn, array $list): array
     {
