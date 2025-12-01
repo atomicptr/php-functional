@@ -49,7 +49,7 @@ Throws an assertion error if this Option is None.
 **Throws Exceptions**
 
 
-`\AssertionError`
+`\InvariantViolationException`
 > If this Option is None.
 
 <hr />
@@ -112,7 +112,7 @@ Checks if this Option is a Some variant.
 **Description**
 
 ```php
-public map (\T $)
+public map (callable $fn)
 ```
 
 Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result. 
@@ -121,8 +121,7 @@ Returns None if the option is None, otherwise calls fn with the wrapped value an
 
 **Parameters**
 
-* `(\T) $`
-: U|Option<U>  
+* `(callable) $fn`
 
 **Return Values**
 
@@ -165,7 +164,7 @@ Creates a None variant of Option, representing the absence of a value.
 **Description**
 
 ```php
-public orElse (void)
+public orElse (\U|callable $value)
 ```
 
 Returns value of object if present, otherwise returns $value (executes it if its callable) 
@@ -174,11 +173,11 @@ Returns value of object if present, otherwise returns $value (executes it if its
 
 **Parameters**
 
-`This function has no parameters.`
+* `(\U|callable) $value`
 
 **Return Values**
 
-`\T|\U`
+`\U`
 
 
 

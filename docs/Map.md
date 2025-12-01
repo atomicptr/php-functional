@@ -62,7 +62,7 @@ Converts the map to a Collection instance.
 
 **Return Values**
 
-`\Collection<array{: \TKey, : \TValue}>`
+`\Collection<array{\TKey, \TValue}>`
 
 > Collection of [key, value] pairs
 
@@ -88,7 +88,7 @@ Creates a new empty Map instance.
 
 **Return Values**
 
-`\Map<\TNewKey,\TNewValue>`
+`\Map<\TKey,\TValue>`
 
 > A new empty Map instance
 
@@ -220,7 +220,7 @@ Creates a new Map instance from an associative array.
 
 **Return Values**
 
-`\Map<\TNewKey,\TNewValue>`
+`\Map<\TKey,\TValue>`
 
 > A new Map instance
 
@@ -233,7 +233,7 @@ Creates a new Map instance from an associative array.
 **Description**
 
 ```php
-public static fromCollection (\Collection<array{: \TNewKey, : \TNewValue}> $collection)
+public static fromCollection (\Collection<array{\TKey, \TValue}> $collection)
 ```
 
 Creates a new Map instance from a Collection of key-value pairs. 
@@ -242,12 +242,12 @@ Creates a new Map instance from a Collection of key-value pairs.
 
 **Parameters**
 
-* `(\Collection<array{: \TNewKey, : \TNewValue}>) $collection`
+* `(\Collection<array{\TKey, \TValue}>) $collection`
 : Collection of [key, value] pairs  
 
 **Return Values**
 
-`\Map<\TNewKey,\TNewValue>`
+`\Map<\TKey,\TValue>`
 
 > A new Map instance
 
@@ -260,7 +260,7 @@ Creates a new Map instance from a Collection of key-value pairs.
 **Description**
 
 ```php
-public static fromList (array{: \TNewKey, : \TNewValue}[] $pairs)
+public static fromList (array{\TKey, \TValue}[] $pairs)
 ```
 
 Creates a new Map instance from a list of key-value pairs. 
@@ -269,21 +269,15 @@ Creates a new Map instance from a list of key-value pairs.
 
 **Parameters**
 
-* `(array{: \TNewKey, : \TNewValue}[]) $pairs`
+* `(array{\TKey, \TValue}[]) $pairs`
 : List of [key, value] pairs  
 
 **Return Values**
 
-`\Map<\TNewKey,\TNewValue>`
+`\Map<\TKey,\TValue>`
 
 > A new Map instance
 
-
-**Throws Exceptions**
-
-
-`\AssertionError`
-> if any pair doesn't contain exactly two elements
 
 <hr />
 
@@ -333,7 +327,7 @@ Create an iterator to iterate over maps
 
 **Return Values**
 
-`\Traversable<\T>`
+`\Traversable<\TKey,\TValue>`
 
 
 
@@ -439,7 +433,7 @@ Maps over the values in the map using a function.
 
 **Return Values**
 
-`\Map<\TKey,\TNewValue>`
+`\Map<\TKey,\TValue>`
 
 > A new Map instance with transformed values
 
@@ -607,7 +601,7 @@ Sets a new key-value pair in the map, returning a new Map instance.
 
 **Return Values**
 
-`static`
+`\Map<\TKey,\TValue>`
 
 > A new Map instance with the added key-value pair
 
@@ -657,7 +651,7 @@ Converts the map to a list of key-value pairs.
 
 **Return Values**
 
-`array{: \TKey, : \TValue}[]`
+`array{\TKey, \TValue}[]`
 
 > List of [key, value] pairs
 

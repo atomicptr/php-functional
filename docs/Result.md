@@ -44,7 +44,7 @@ Executes a function and captures its result or any thrown exception into a Resul
 
 **Return Values**
 
-`\Result<\T,\Err>`
+`\Result<\T>`
 
 > A Result containing either the function's return value or the caught exception
 
@@ -57,7 +57,7 @@ Executes a function and captures its result or any thrown exception into a Resul
 **Description**
 
 ```php
-public static error (\Err $error)
+public static error (string|\Stringable|\Throwable $error)
 ```
 
 Creates a failed Result containing the given error. 
@@ -66,12 +66,12 @@ Creates a failed Result containing the given error.
 
 **Parameters**
 
-* `(\Err) $error`
+* `(string|\Stringable|\Throwable) $error`
 : The error value  
 
 **Return Values**
 
-`\Error<\Err>`
+`\Error`
 
 > A Result representing failure
 
@@ -97,15 +97,15 @@ Throws an assertion error if this Result represents a successful value.
 
 **Return Values**
 
-`\T`
+`string|\Stringable|\Throwable`
 
-> The success value
+> The error value
 
 
 **Throws Exceptions**
 
 
-`\AssertionError`
+`\InvariantViolationException`
 > If this Result represents an error
 
 <hr />
@@ -137,7 +137,7 @@ Throws an assertion error if this Result represents an error.
 **Throws Exceptions**
 
 
-`\AssertionError`
+`\InvariantViolationException`
 > If this Result represents an error
 
 <hr />
@@ -200,7 +200,7 @@ Checks if the Result is OK
 **Description**
 
 ```php
-public map (\T $)
+public map (callable $fn)
 ```
 
 Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result. 
@@ -209,12 +209,11 @@ Returns None if the option is None, otherwise calls fn with the wrapped value an
 
 **Parameters**
 
-* `(\T) $`
-: U|Error<U, UErr>  
+* `(callable) $fn`
 
 **Return Values**
 
-`\Result<\U,\UErr>`
+`\Result<\U>`
 
 
 
@@ -254,7 +253,7 @@ Creates a successful Result containing the given value.
 **Description**
 
 ```php
-public orElse (void)
+public orElse (\U|callable $value)
 ```
 
 Returns value of object if present, otherwise returns $value (executes it if its callable) 
@@ -263,7 +262,7 @@ Returns value of object if present, otherwise returns $value (executes it if its
 
 **Parameters**
 
-`This function has no parameters.`
+* `(\U|callable) $value`
 
 **Return Values**
 

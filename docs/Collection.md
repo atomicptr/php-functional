@@ -88,7 +88,7 @@ Append another collection to this collection
 **Description**
 
 ```php
-public cons (\U $value)
+public cons (\T $value)
 ```
 
 Add element to new list 
@@ -97,11 +97,11 @@ Add element to new list
 
 **Parameters**
 
-* `(\U) $value`
+* `(\T) $value`
 
 **Return Values**
 
-`\Collection<\T|\U>`
+`\Collection<\T>`
 
 
 
@@ -259,7 +259,7 @@ Iterates over $list until one element applied to $fn returns true and returns th
 
 **Return Values**
 
-`\Option<\K>`
+`\Option<int|string>`
 
 
 
@@ -317,7 +317,7 @@ Apply a function to each element in the collection and than flatten it
 
 **Return Values**
 
-`\Collection<\U>`
+`\Collection<\T>`
 
 
 
@@ -716,7 +716,7 @@ Apply a function to each element in the collection
 
 **Return Values**
 
-`\Collection<\U>`
+`\Collection<\T>`
 
 
 
