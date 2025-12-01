@@ -2,35 +2,27 @@
 
 namespace Atomicptr\Functional;
 
+use Atomicptr\Functional\Exceptions\InvariantViolationException;
+use Atomicptr\Functional\Variants\Option\None;
+use Atomicptr\Functional\Variants\Option\Some;
+
 /**
  * Represents an optional value: every Option is either Some and contains a value, or None, and does not.
  * This type is used in cases where a value may or may not be present.
  *
  * @template T
  */
-final readonly class Option
+abstract readonly class Option
 {
-    private const int VARIANT_NONE = 0;
-    private const int VARIANT_SOME = 1;
-
-    private function __construct(
-        private int $variant,
-
-        /**
-         * @var T|null
-         */
-        private mixed $value = null,
-    ) {}
-
     /**
      * Creates a Some variant of Option containing the given value.
      *
      * @param T $value The value to wrap in Some.
      * @return Some<T> An Option containing the value.
      */
-    public static function some(mixed $value): static
+    public static function some(mixed $value): Some
     {
-        return new Option(self::VARIANT_SOME, $value);
+        return new Some($value);
     }
 
     /**
@@ -38,9 +30,9 @@ final readonly class Option
      *
      * @return None An Option representing no value.
      */
-    public static function none(): static
+    public static function none(): None
     {
-        return new Option(self::VARIANT_NONE);
+        return new None();
     }
 
     /**
@@ -50,7 +42,7 @@ final readonly class Option
      */
     public function isSome(): bool
     {
-        return $this->variant === self::VARIANT_SOME;
+        return $this instanceof Some;
     }
 
     /**
@@ -60,7 +52,7 @@ final readonly class Option
      */
     public function isNone(): bool
     {
-        return $this->variant === self::VARIANT_NONE;
+        return $this instanceof None;
     }
 
     /**
@@ -68,22 +60,18 @@ final readonly class Option
      * Throws an assertion error if this Option is None.
      *
      * @return T The contained value.
-     * @throws \AssertionError If this Option is None.
+     * @throws InvariantViolationException If this Option is None.
      */
-    public function get(): mixed
-    {
-        assert($this->isSome(), 'Option::value: Accessed Optional that has no value');
-        return $this->value;
-    }
+    public abstract function get(): mixed;
 
     /**
      * Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.
      *
      * @template U
-     * @param callable(T): U|Option<U>
+     * @param callable(T): (U|Option<U>) $fn
      * @return Option<U>
      */
-    public function map(callable $fn): static
+    public function map(callable $fn): Option
     {
         if ($this->isNone()) {
             return $this;
@@ -101,17 +89,19 @@ final readonly class Option
      * Returns value of object if present, otherwise returns $value (executes it if its callable)
      *
      * @template U
-     * @param U|callable(): U
-     * @return T|U
+     * @param U|callable(): U $value
+     * @return U
      */
     public function orElse(mixed $value): mixed
     {
         if ($this->isSome()) {
             return $this->get();
         }
+
         if (is_callable($value)) {
             return $value();
         }
+
         return $value;
     }
 }

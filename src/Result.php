@@ -2,8 +2,10 @@
 
 namespace Atomicptr\Functional;
 
+use Atomicptr\Functional\Exceptions\InvariantViolationException;
 use Atomicptr\Functional\Exceptions\ResultError;
-use Exception;
+use Atomicptr\Functional\Variants\Result\Error;
+use Atomicptr\Functional\Variants\Result\Ok;
 use Stringable;
 use Throwable;
 
@@ -11,45 +13,36 @@ use Throwable;
  * Represents a result of an operation that can either succeed with a value or fail with an error.
  *
  * @template T The type of the success value
- * @template Err of string|Stringable|Throwable The type of the error value
  */
-final readonly class Result
+abstract readonly class Result
 {
-    private const int VARIANT_OK = 0;
-    private const int VARIANT_ERR = 1;
-
-    private function __construct(
-        private int $variant,
-        private mixed $value = null,
-    ) {}
-
     /**
      * Creates a successful Result containing the given value.
      *
      * @param T $value The success value
      * @return Ok<T> A Result representing success
      */
-    public static function ok(mixed $value): static
+    public static function ok(mixed $value): Ok
     {
-        return new Result(self::VARIANT_OK, $value);
+        return new Ok($value);
     }
 
     /**
      * Creates a failed Result containing the given error.
      *
-     * @param Err $error The error value
-     * @return Error<Err> A Result representing failure
+     * @param string|Stringable|Throwable $error The error value
+     * @return Error A Result representing failure
      */
-    public static function error(string|Stringable|Throwable $error): static
+    public static function error(string|Stringable|Throwable $error): Error
     {
-        return new Result(self::VARIANT_ERR, $error);
+        return new Error($error);
     }
 
     /**
      * Executes a function and captures its result or any thrown exception into a Result.
      *
      * @param callable(): T $fn The function to execute
-     * @return Result<T, Err> A Result containing either the function's return value or the caught exception
+     * @return Result<T> A Result containing either the function's return value or the caught exception
      */
     public static function capture(callable $fn): Result
     {
@@ -68,7 +61,7 @@ final readonly class Result
      */
     public function isOk(): bool
     {
-        return $this->variant === self::VARIANT_OK;
+        return $this instanceof Ok;
     }
 
     /**
@@ -78,7 +71,7 @@ final readonly class Result
      */
     public function hasError(): bool
     {
-        return $this->variant === self::VARIANT_ERR;
+        return $this instanceof Error;
     }
 
     /**
@@ -86,26 +79,18 @@ final readonly class Result
      * Throws an assertion error if this Result represents an error.
      *
      * @return T The success value
-     * @throws \AssertionError If this Result represents an error
+     * @throws InvariantViolationException If this Result represents an error
      */
-    public function get(): mixed
-    {
-        assert(!$this->hasError(), 'Result::value: Accessed Result that had an error');
-        return $this->value;
-    }
+    public abstract function get(): mixed;
 
     /**
      * Returns the error value if this Result represents an error.
      * Throws an assertion error if this Result represents a successful value.
      *
-     * @return T The success value
-     * @throws \AssertionError If this Result represents an error
+     * @return string|Stringable|Throwable The error value
+     * @throws InvariantViolationException If this Result represents an error
      */
-    public function errorValue(): string|Stringable|Throwable
-    {
-        assert($this->hasError(), 'Result::value: Accessed Result that had a successful value');
-        return $this->value;
-    }
+    public abstract function errorValue(): string|Stringable|Throwable;
 
     /**
      * Result as an Option, mapping Result::ok(...) to Option::some(...) and Result::error(...) to Option::none()
@@ -124,11 +109,10 @@ final readonly class Result
      * Returns None if the option is None, otherwise calls fn with the wrapped value and returns the result.
      *
      * @template U
-     * @template UErr
-     * @param callable(T): U|Error<U, UErr>
-     * @return Result<U, UErr>
+     * @param callable(T): (U|Result<U>) $fn
+     * @return Result<U>
      */
-    public function map(callable $fn): static
+    public function map(callable $fn): Result
     {
         if ($this->hasError()) {
             return $this;
@@ -146,7 +130,7 @@ final readonly class Result
      * Returns value of object if present, otherwise returns $value (executes it if its callable)
      *
      * @template U
-     * @param U|callable(): U
+     * @param U|callable(): U $value
      * @return T|U
      */
     public function orElse(mixed $value): mixed

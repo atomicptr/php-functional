@@ -29,7 +29,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      *
      * @param TKey $key The key to set
      * @param TValue $value The value to associate with the key
-     * @return static A new Map instance with the added key-value pair
+     * @return Map<TKey, TValue> A new Map instance with the added key-value pair
      */
     public function set(mixed $key, mixed $value): static
     {
@@ -81,18 +81,21 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
      * Updates a value in the map using a function.
      *
      * @param TKey $key The key to update
-     * @param callable(Option<TValue>): Option<TValue> $fn The function
+     * @param callable(Option<TValue>): (TValue|Option<TValue>) $fn The function
      * @return static A new Map instance with the updated value
      */
     public function update(mixed $key, callable $fn): static
     {
         $result = $fn($this->get($key));
+
         if (!($result instanceof Option)) {
             $result = Option::some($result);
         }
+
         if ($result->isNone()) {
             return $this->remove($key);
         }
+
         return $this->set($key, $result->get());
     }
 
@@ -105,9 +108,11 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
     public function find(callable $fn): Option
     {
         $result = Lst::find(fn(array $pair) => $fn(Lst::first($pair), Lst::second($pair)), $this->toList());
+
         if ($result->isNone()) {
             return Option::none();
         }
+
         return Option::some(Lst::second($result->get()));
     }
 
@@ -147,13 +152,17 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Maps over the values in the map using a function.
      *
-     * @template TNewValue
-     * @param callable(TKey, TValue): TNewValue $fn The function
-     * @return Map<TKey, TNewValue> A new Map instance with transformed values
+     * @param (callable(TKey, TValue): TValue) $fn The function
+     * @return Map<TKey, TValue> A new Map instance with transformed values
      */
-    public function map(callable $fn): static
+    public function map(callable $fn): self
     {
-        return static::fromList(Lst::map(fn(array $pair) => [Lst::first($pair), $fn(Lst::first($pair), Lst::second($pair))], $this->toList()));
+        return static::fromList(
+            Lst::map(
+                fn(array $pair) => [Lst::first($pair), $fn(Lst::first($pair), Lst::second($pair))],
+                $this->toList()
+            )
+        );
     }
 
     /**
@@ -229,10 +238,8 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Creates a new Map instance from an associative array.
      *
-     * @template TNewKey
-     * @template TNewValue
-     * @param array<TNewKey, TNewValue> $data The source array
-     * @return Map<TNewKey, TNewValue> A new Map instance
+     * @param array<TKey, TValue> $data The source array
+     * @return Map<TKey, TValue> A new Map instance
      */
     public static function from(array $data): static
     {
@@ -242,17 +249,13 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Creates a new Map instance from a list of key-value pairs.
      *
-     * @template TNewKey
-     * @template TNewValue
-     * @param array<array{TNewKey, TNewValue}> $pairs List of [key, value] pairs
-     * @return Map<TNewKey, TNewValue> A new Map instance
-     * @throws \AssertionError if any pair doesn't contain exactly two elements
+     * @param array<array{TKey, TValue}> $pairs List of [key, value] pairs
+     * @return Map<TKey, TValue> A new Map instance
      */
     public static function fromList(array $pairs): static
     {
         $map = [];
         foreach ($pairs as $pair) {
-            assert(count($pair) === 2, 'every pair must contain of two elements');
             list($key, $value) = $pair;
             $map[$key] = $value;
         }
@@ -262,10 +265,8 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Creates a new Map instance from a Collection of key-value pairs.
      *
-     * @template TNewKey
-     * @template TNewValue
-     * @param Collection<array{TNewKey, TNewValue}> $collection Collection of [key, value] pairs
-     * @return Map<TNewKey, TNewValue> A new Map instance
+     * @param Collection<array{TKey, TValue}> $collection Collection of [key, value] pairs
+     * @return Map<TKey, TValue> A new Map instance
      */
     public static function fromCollection(Collection $collection): static
     {
@@ -275,9 +276,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Creates a new empty Map instance.
      *
-     * @template TNewKey
-     * @template TNewValue
-     * @return Map<TNewKey, TNewValue> A new empty Map instance
+     * @return Map<TKey, TValue> A new empty Map instance
      */
     public static function empty(): static
     {
@@ -286,7 +285,7 @@ final class Map implements Traversable, IteratorAggregate, ArrayAccess
 
     /**
      * Create an iterator to iterate over maps
-     * @return Traversable<T>
+     * @return Traversable<TKey, TValue>
      */
     public function getIterator(): Traversable
     {

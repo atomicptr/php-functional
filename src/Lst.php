@@ -66,7 +66,6 @@ final class Lst
 
         foreach ($list as $key => $value) {
             $res = $fn($value, $key);
-            assert(is_bool($res));
 
             if ($res) {
                 $matches[] = $value;
@@ -92,7 +91,6 @@ final class Lst
     {
         foreach ($list as $key => $value) {
             $res = $fn($value, $key);
-            assert(is_bool($res));
 
             if ($res) {
                 return Option::some($value);
@@ -116,7 +114,6 @@ final class Lst
     {
         foreach ($list as $key => $value) {
             $res = $fn($value, $key);
-            assert(is_bool($res));
 
             if ($res) {
                 return Option::some($key);
@@ -187,7 +184,6 @@ final class Lst
     {
         foreach ($list as $key => $value) {
             $res = $fn($value, $key);
-            assert(is_bool($res));
 
             if ($res) {
                 return true;
@@ -210,7 +206,6 @@ final class Lst
     {
         foreach ($list as $key => $value) {
             $res = $fn($value, $key);
-            assert(is_bool($res));
 
             if (!$res) {
                 return false;
@@ -241,7 +236,7 @@ final class Lst
      */
     public static function isEmpty(array $lst): bool
     {
-        return empty($lst);
+        return count($lst) === 0;
     }
 
     /**
@@ -455,9 +450,9 @@ final class Lst
      * @param array<K, T> $list
      * @return array<K, T>
      */
-    public static function flatMap(callable $fn, array $lst): array
+    public static function flatMap(callable $fn, array $list): array
     {
-        return static::flatten(static::map($fn, $lst));
+        return static::flatten(static::map($fn, $list));
     }
 
     /**
@@ -606,7 +601,7 @@ final class Lst
         $lst = Lst::sort($fn, $lst);
 
         return Lst::foldl(function (array $acc, mixed $current) use ($fn) {
-            if (empty($acc)) {
+            if (count($acc) === 0) {
                 return [$current];
             }
 

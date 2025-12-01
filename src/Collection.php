@@ -18,6 +18,9 @@ use Traversable;
 final class Collection implements Traversable, IteratorAggregate, ArrayAccess
 {
     private function __construct(
+        /**
+         * @var T[]
+         */
         private array $data = [],
     ) {}
 
@@ -42,7 +45,7 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     {
         $arr = [];
 
-        while ($elem = $iterator->next()) {
+        foreach ($iterator as $elem) {
             $arr[] = $elem;
         }
 
@@ -88,10 +91,10 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
      * Apply a function to each element in the collection
      *
      * @template U
-     * @param callable(T $elem, int $index): U $fn
-     * @return Collection<U>
+     * @param (callable(T $elem, int $index): U) $fn
+     * @return Collection<T>
      */
-    public function map(callable $fn): static
+    public function map(callable $fn): Collection
     {
         return static::from(Lst::map($fn, $this->data));
     }
@@ -152,9 +155,8 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
      * Iterates over $list until one element applied to $fn returns true and
      * returns the index of that element.
      *
-     * @template T
-     * @param callable(T $elem, int $index): bool $fn
-     * @return Option<K>
+     * @param (callable(T $elem, int|string $index): bool) $fn
+     * @return Option<int|string>
      */
     public function findIndex(callable $fn): Option
     {
@@ -252,7 +254,6 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Retrieves the first element of the list.
      *
-     * @template T
      * @return T The first element of the list
      * @throws \AssertionError If the list is empty
      */
@@ -264,7 +265,6 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Retrieves the second element of the list.
      *
-     * @template T
      * @return T The second element of the list
      * @throws \AssertionError If the list has fewer than two elements
      */
@@ -276,7 +276,6 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Retrieves the third element of the list.
      *
-     * @template T
      * @return T The third element of the list
      * @throws \AssertionError If the list has fewer than three elements
      */
@@ -288,7 +287,6 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Retrieves the last element of the list.
      *
-     * @template T
      * @return T The last element of the list
      * @throws \AssertionError If the list is empty
      */
@@ -321,9 +319,8 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Add element to new list
      *
-     * @template U
-     * @param U $value
-     * @return Collection<T|U>
+     * @param T $value
+     * @return Collection<T>
      */
     public function cons(mixed $value): Collection
     {
@@ -344,10 +341,10 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
      * Apply a function to each element in the collection and than flatten it
      *
      * @template U
-     * @param callable(T $elem, int $index): U $fn
-     * @return Collection<U>
+     * @param (callable(T $elem, int $index): U) $fn
+     * @return Collection<T>
      */
-    public function flatMap(callable $fn): static
+    public function flatMap(callable $fn): Collection
     {
         return static::from(Lst::flatten(Lst::map($fn, $this->data)));
     }
@@ -390,10 +387,10 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
      * Returns a new list with elements dropped from the start until the
      * predicate function $fn returns false.
      *
-     * @param callable(T $elem, K $index): bool $fn The predicate function
+     * @param callable(T $elem, int|string $index): bool $fn The predicate function
      * @return Collection<T> A new list with elements dropped until $fn first returns false
      */
-    public function dropWhile(callable $fn): static
+    public function dropWhile(callable $fn): self
     {
         return static::from(Lst::dropWhile($fn, $this->data));
     }
@@ -451,7 +448,7 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
     /**
      * Groups elements of the collection by the result of a callable function.
      *
-     * @template TKey of array-key
+     * @template TKey
      *
      * @param callable(T): TKey $fn A function that takes an element and returns a key for grouping.
      * @return Map<TKey, T[]> A Map where keys are the results from $fn and values are arrays of elements that match each key.
