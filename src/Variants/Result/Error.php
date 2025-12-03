@@ -18,6 +18,8 @@ final readonly class Error extends Result
     ) {}
 
     /**
+     * Can't get value from Error type, did you forget to check the value?
+     * @return never
      * @throws InvariantViolationException
      */
     public function get(): mixed

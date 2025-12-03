@@ -26,6 +26,11 @@ final readonly class Ok extends Result
         return $this->value;
     }
 
+    /**
+     * Can't get error from Ok type
+     * @return never
+     * @throws InvariantViolationException
+     */
     public function errorValue(): string|Stringable|Throwable
     {
         throw new InvariantViolationException("Can't get Result error on an Ok value");
