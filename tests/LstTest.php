@@ -143,6 +143,8 @@ test('Lst::sort', function () {
     $lst = [5, 100, 4, 3, 2, 1];
     expect(Lst::sort(fn(int $a, int $b) => $a <=> $b, $lst))->toBe([1, 2, 3, 4, 5, 100]);
     expect($lst)->toBe([5, 100, 4, 3, 2, 1]);  // original list is unchanged
+
+    expect(Lst::sort(fn($a, $b) => strnatcmp($a, $b), ['test 1', 'test 2', 'test 10']))->toBe(['test 1', 'test 2', 'test 10']);
 });
 
 test('Lst::unique', function () {

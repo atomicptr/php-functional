@@ -558,7 +558,7 @@ final class Lst
      * negative integer if the first is smaller (see spaceship operator: <=>)
      *
      * @template T
-     * @param callable(T $elem1, T $elem2): T $fn
+     * @param callable(T $elem1, T $elem2): (-1|0|1) $fn
      * @param T[] $lst
      * @return T[]
      */

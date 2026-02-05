@@ -412,7 +412,7 @@ final class Collection implements Traversable, IteratorAggregate, ArrayAccess
      * return 0 if it's arguments compare as equal, a positive integer if the first is greater and a
      * negative integer if the first is smaller (see spaceship operator: <=>)
      *
-     * @param callable(T $elem1, T $elem2): T $fn
+     * @param callable(T $elem1, T $elem2): (-1|0|1) $fn
      * @return Collection<T>
      */
     public function sort(callable $fn): static
